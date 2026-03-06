@@ -8,28 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* Zachte donkere slate achtergronden */
   --bg:#181c2a;--bg2:#1f2336;--bg3:#252840;--bg4:#2d3150;
-
-/* Accent: warm lavendel/goud */
-–amber:#c4a96b;–amber-l:#ddc07a;–amber-x:#f0d898;
-
-/* Tekst: warm crème */
-–cream:#ede8df;–cream-d:#9e9688;–cream-dd:#66605a;
-
-/* Landvlagkleuren: zacht en mat */
-–nl:#e07070;–nl-bg:rgba(220,100,100,.12);
-–de:#7aacd4;–de-bg:rgba(100,160,210,.12);
-–lu:#d4b86a;–lu-bg:rgba(210,180,90,.12);
-
-/* Winner groen: zacht salie */
-–green:#6bbf8e;–green-bg:rgba(100,190,140,.1);
-
-/* Randen: subtiele lavendel */
-–brd:rgba(180,170,220,.12);–brd-b:rgba(180,170,220,.28);
+  --amber:#c4a96b;--amber-l:#ddc07a;--amber-x:#f0d898;
+  --cream:#ede8df;--cream-d:#9e9688;--cream-dd:#66605a;
+  --nl:#e07070;--nl-bg:rgba(220,100,100,.12);
+  --de:#7aacd4;--de-bg:rgba(100,160,210,.12);
+  --lu:#d4b86a;--lu-bg:rgba(210,180,90,.12);
+  --green:#6bbf8e;--green-bg:rgba(100,190,140,.1);
+  --brd:rgba(180,170,220,.12);--brd-b:rgba(180,170,220,.28);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:‘IBM Plex Sans’,sans-serif;background:var(–bg);color:var(–cream);min-height:100vh}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh}
 
 header{position:relative;overflow:hidden;background:linear-gradient(180deg,#111422 0%,var(–bg2) 100%);border-bottom:2px solid var(–brd-b);padding:32px 20px 26px;text-align:center}
 header::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 110%,rgba(150,130,200,.15) 0%,transparent 65%);pointer-events:none}
@@ -52,6 +41,25 @@ header h1 em{font-style:italic;color:var(–amber-l)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .klink{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(–amber);text-decoration:none;border:1px solid var(–brd);border-radius:6px;padding:7px 12px;transition:all .2s;background:rgba(201,125,10,.05)}
 .klink:hover{background:rgba(201,125,10,.12);border-color:var(–brd-b)}
+
+/* API KEY MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,8,4,.92);z-index:200;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.modal-overlay.hidden{display:none}
+.modal-box{background:var(–bg2);border:1px solid var(–brd-b);border-radius:16px;padding:32px 28px;max-width:420px;width:90%;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+.modal-title{font-family:‘Playfair Display’,serif;font-size:20px;font-weight:700;color:var(–amber-l);margin-bottom:8px}
+.modal-sub{font-size:12px;color:var(–cream-d);line-height:1.7;margin-bottom:20px}
+.modal-sub a{color:var(–amber);text-decoration:none}
+.modal-sub a:hover{text-decoration:underline}
+.modal-input{width:100%;background:var(–bg3);border:1px solid var(–brd-b);border-radius:8px;padding:11px 14px;color:var(–cream);font-family:‘IBM Plex Mono’,monospace;font-size:13px;outline:none;transition:border-color .2s;margin-bottom:6px}
+.modal-input:focus{border-color:var(–amber-l)}
+.modal-hint{font-size:11px;color:var(–cream-dd);margin-bottom:18px;font-family:‘IBM Plex Mono’,monospace}
+.modal-btns{display:flex;gap:10px}
+.mbtn-save{flex:1;background:var(–amber);color:#000;border:none;border-radius:8px;padding:11px;font-weight:700;font-size:13px;cursor:pointer;transition:opacity .2s}
+.mbtn-save:hover{opacity:.85}
+.mbtn-skip{background:var(–bg3);color:var(–cream-d);border:1px solid var(–brd);border-radius:8px;padding:11px 16px;font-size:13px;cursor:pointer}
+.mbtn-skip:hover{background:var(–bg4)}
+.key-manage{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(–amber);border:1px solid var(–brd);border-radius:6px;padding:7px 12px;background:rgba(201,125,10,.05);cursor:pointer;font-family:‘IBM Plex Sans’,sans-serif}
+.key-manage:hover{background:rgba(201,125,10,.12)}
 
 .tabs{display:flex;gap:4px;background:rgba(0,0,0,.35);border:1px solid var(–brd);border-radius:10px;padding:4px;margin-bottom:22px}
 .tab{flex:1;padding:10px 8px;border:none;border-radius:7px;background:transparent;color:var(–cream-d);font-family:‘IBM Plex Sans’,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
@@ -81,7 +89,6 @@ header h1 em{font-style:italic;color:var(–amber-l)}
 .prod-sub{font-size:11px;color:var(–cream-d);margin-top:2px}
 
 .p-nl{color:#f07060}.p-de{color:#6aaae0}.p-lu{color:#e0c040}
-/* Winner cell */
 .cell-winner{background:rgba(76,184,106,.13)!important;position:relative}
 .cell-winner .price-val{font-size:15px!important;font-weight:800!important;filter:brightness(1.35)}
 .winner-flag{font-size:20px;line-height:1;display:block;margin-bottom:2px}
@@ -94,7 +101,6 @@ header h1 em{font-style:italic;color:var(–amber-l)}
 .cl-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(–cream-d)}
 .cl-dot{width:10px;height:10px;border-radius:50%}
 
-/* CALC */
 .calc-card{background:var(–bg2);border:1px solid var(–brd-b);border-radius:14px;padding:24px}
 .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
 @media(max-width:520px){.calc-grid{grid-template-columns:1fr}}
@@ -108,7 +114,6 @@ header h1 em{font-style:italic;color:var(–amber-l)}
 .rlabel{color:var(–cream-d)}.rval{font-family:‘IBM Plex Mono’,monospace;font-size:14px;font-weight:600}
 .rbig{font-family:‘Playfair Display’,serif;font-size:28px;font-weight:700;color:var(–green)}
 
-/* INFO */
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 @media(max-width:580px){.info-grid{grid-template-columns:1fr}}
 .icard{background:var(–bg2);border:1px solid var(–brd);border-radius:12px;padding:18px}
@@ -119,7 +124,6 @@ header h1 em{font-style:italic;color:var(–amber-l)}
 .lrow:last-child{border-bottom:none}
 .lk{color:var(–cream-d)}.lv{font-family:‘IBM Plex Mono’,monospace;font-weight:600;color:var(–cream)}
 
-/* EDIT */
 .edit-note{background:rgba(201,125,10,.08);border:1px solid var(–brd);border-radius:8px;padding:12px 16px;font-size:12px;color:var(–cream-d);margin-bottom:18px;line-height:1.6}
 .edit-note strong{color:var(–amber-l)}
 .ebtn{border:none;padding:11px 22px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer}
@@ -134,7 +138,7 @@ footer{text-align:center;padding:16px;font-size:11px;color:var(–cream-dd);bord
 .tabs{overflow-x:auto}
 .tab{font-size:11px;padding:9px 5px}
 }
-/* ─── BENZINE TAB ─── */
+
 .fuel-table{width:100%;border-collapse:collapse;margin-bottom:6px}
 .fuel-table th{background:var(–bg3);color:var(–amber-l);font-family:‘IBM Plex Mono’,monospace;font-size:11px;text-transform:uppercase;letter-spacing:.6px;padding:10px 14px;text-align:center;border-bottom:1px solid var(–brd)}
 .fuel-table th:first-child{text-align:left}
@@ -150,31 +154,17 @@ footer{text-align:center;padding:16px;font-size:11px;color:var(–cream-dd);bord
 .fuel-card{background:var(–bg2);border:1px solid var(–brd);border-radius:12px;overflow:hidden;margin-bottom:16px}
 .fuel-note{font-size:11.5px;color:var(–cream-d);background:rgba(201,125,10,.06);border:1px solid var(–brd);border-radius:8px;padding:12px 14px;margin-bottom:6px;line-height:1.8}
 
-/* ZOEKBALK */
 .search-wrap{position:relative;margin-bottom:16px}
-.search-input{
-width:100%;background:var(–bg2);border:1px solid var(–brd-b);
-border-radius:10px;padding:12px 16px 12px 42px;
-color:var(–cream);font-family:‘IBM Plex Sans’,sans-serif;font-size:14px;
-outline:none;transition:border-color .2s,box-shadow .2s;
-}
+.search-input{width:100%;background:var(–bg2);border:1px solid var(–brd-b);border-radius:10px;padding:12px 16px 12px 42px;color:var(–cream);font-family:‘IBM Plex Sans’,sans-serif;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}
 .search-input:focus{border-color:var(–amber-l);box-shadow:0 0 0 3px rgba(180,165,210,.15)}
 .search-input::placeholder{color:var(–cream-dd)}
 .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;opacity:.6}
-.search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);
-background:var(–bg4);border:1px solid var(–brd);border-radius:4px;
-color:var(–cream-d);font-size:11px;padding:3px 8px;cursor:pointer;
-display:none;font-family:‘IBM Plex Mono’,monospace;transition:all .15s}
+.search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(–bg4);border:1px solid var(–brd);border-radius:4px;color:var(–cream-d);font-size:11px;padding:3px 8px;cursor:pointer;display:none;font-family:‘IBM Plex Mono’,monospace;transition:all .15s}
 .search-clear:hover{background:var(–brd-b);color:var(–cream)}
-.no-results{text-align:center;padding:28px;color:var(–cream-dd);
-font-family:‘IBM Plex Mono’,monospace;font-size:13px;font-style:italic}
+.no-results{text-align:center;padding:28px;color:var(–cream-dd);font-family:‘IBM Plex Mono’,monospace;font-size:13px;font-style:italic}
 .prow.hidden{display:none}
-.cat-section{transition:opacity .2s}
-.cat-section.empty .cat-label{opacity:.3}
-.match-count{font-family:‘IBM Plex Mono’,monospace;font-size:11px;
-color:var(–amber);margin-left:8px;opacity:.8}
+.match-count{font-family:‘IBM Plex Mono’,monospace;font-size:11px;color:var(–amber);margin-left:8px;opacity:.8}
 
-/* AI UPDATE */
 .ai-overlay{position:fixed;inset:0;background:rgba(10,8,4,.88);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;backdrop-filter:blur(4px)}
 .ai-overlay.hidden{display:none}
 .ai-spinner{width:48px;height:48px;border:3px solid rgba(201,125,10,.2);border-top-color:var(–amber-l);border-radius:50%;animation:spin 0.8s linear infinite}
@@ -184,15 +174,37 @@ color:var(–amber);margin-left:8px;opacity:.8}
 .badge-ok{border-color:rgba(76,184,106,.5)!important;background:rgba(76,184,106,.08)!important}
 .badge-ok .dot{background:var(–green)!important}
 .badge-err{border-color:rgba(217,64,48,.4)!important;background:rgba(217,64,48,.06)!important}
-
 </style>
+
 </head>
 <body>
+
+<!-- AI LOADING OVERLAY -->
 
 <div class="ai-overlay" id="ai-overlay">
   <div class="ai-spinner"></div>
   <div class="ai-msg" id="ai-msg">🤖 AI zoekt actuele prijzen op...</div>
   <div class="ai-sub" id="ai-sub">Nederland · Duitsland · Luxemburg</div>
+</div>
+
+<!-- API KEY MODAL -->
+
+<div class="modal-overlay hidden" id="key-modal">
+  <div class="modal-box">
+    <div class="modal-title">🔑 Anthropic API-sleutel</div>
+    <div class="modal-sub">
+      Om actuele prijzen op te halen via AI is een API-sleutel nodig.<br>
+      Haal deze op via <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.<br>
+      De sleutel wordt <strong>alleen lokaal in je browser</strong> opgeslagen.
+    </div>
+    <input class="modal-input" id="key-input" type="password"
+      placeholder="sk-ant-api03-..." autocomplete="off">
+    <div class="modal-hint" id="key-hint">Begint met sk-ant-</div>
+    <div class="modal-btns">
+      <button class="mbtn-save" onclick="saveApiKey()">✅ Opslaan &amp; vernieuwen</button>
+      <button class="mbtn-skip" onclick="skipApiKey()">Overslaan</button>
+    </div>
+  </div>
 </div>
 
 <header>
@@ -214,6 +226,7 @@ color:var(–amber);margin-left:8px;opacity:.8}
       <button onclick="fetchPrices(true)" id="refresh-btn" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--amber);border:1px solid var(--brd);border-radius:6px;padding:7px 12px;background:rgba(201,125,10,.05);cursor:pointer;font-family:IBM Plex Sans,sans-serif">
         🔄 Nu vernieuwen
       </button>
+      <button class="key-manage" onclick="openKeyModal()">🔑 API-sleutel</button>
       <a class="klink" href="https://maps.google.com/?q=Kaldenkirchen+tabak" target="_blank">📍 Kaldenkirchen</a>
     </div>
   </div>
@@ -221,7 +234,7 @@ color:var(–amber);margin-left:8px;opacity:.8}
   <div class="tabs">
     <button class="tab on" onclick="showPanel('vergelijk',this)">📊 Prijzen</button>
     <button class="tab" onclick="showPanel('calc',this)">🧮 Besparing</button>
-    <button class="tab" onclick="showPanel('info',this)">ℹ️ Info & Regels</button>
+    <button class="tab" onclick="showPanel('info',this)">ℹ️ Info &amp; Regels</button>
     <button class="tab" onclick="showPanel('edit',this)">✏️ Aanpassen</button>
   </div>
 
@@ -275,50 +288,13 @@ color:var(–amber);margin-left:8px;opacity:.8}
 </div>
 
 <p style="font-size:11px;color:var(--cream-dd);margin-top:10px;font-style:italic">
-  * Besparing t.o.v. Nederland. Prijzen zijn indicatief — de 230g en 400g emmers zijn berekend o.b.v. de prijs-per-gram van de 200g. Gebruik "✏️ Aanpassen" om jouw actuele prijzen in te voeren.
+  * Besparing t.o.v. Nederland. Prijzen zijn indicatief. Gebruik "✏️ Aanpassen" om jouw actuele prijzen in te voeren.
 </p>
 ```
 
   </div>
 
-  <!-- ═══ BENZINE ═══ -->
-
-  <div id="panel-benzine" class="panel">
-    <div class="s-head">
-      <div class="s-title">⛽ Benzineprijzen</div>
-      <div class="s-desc">Actuele prijzen per liter — goedkoopste optie groen gemarkeerd</div>
-    </div>
-
-```
-<div class="fuel-note">
-  💡 <strong>Tip:</strong> Combineer je rit voor sigaretten met een volle tank — dan profiteer je dubbel.
-  In Duitsland tankstations langs de B509 bij Kaldenkirchen. In Luxemburg: tankstations A3/A6 snelweg (soms rij).
-  Gebruik de <strong>🧮 Besparingscalculator</strong> voor je totale voordeel.
-</div>
-
-<div class="fuel-card">
-  <table class="fuel-table" id="fuel-table-benzine">
-    <thead>
-      <tr>
-        <th>Brandstof</th>
-        <th>🇳🇱 Nederland</th>
-        <th>🇩🇪 Duitsland</th>
-        <th>🇱🇺 Luxemburg</th>
-      </tr>
-    </thead>
-    <tbody id="fuel-rows"></tbody>
-  </table>
-</div>
-<div style="font-size:10.5px;color:var(--cream-dd);font-family:'IBM Plex Mono',monospace;margin-top:-8px;margin-bottom:16px">
-  Bronnen: carblogger.nl · ANWB · GlobalPetrolPrices · dagelijks bijgewerkt door AI
-</div>
-```
-
-  </div>
-
-```
-<!-- ═══ CALCULATOR ═══ -->
-```
+  <!-- ═══ CALCULATOR ═══ -->
 
   <div id="panel-calc" class="panel">
     <div class="s-head">
@@ -447,16 +423,16 @@ color:var(–amber);margin-left:8px;opacity:.8}
 
 <script>
 const DEFAULTS = [
-  {id:'camel-y',  cat:'sig', name:'Camel Yellow',          sub:'pakje 20 stuks',  nl:11.00, de:8.00, lu:6.00},
-  {id:'marlboro', cat:'sig', name:'Marlboro Gold / Light',  sub:'pakje 20 stuks (lang)', nl:12.50, de:8.70, lu:6.50},
-  {id:'winston',  cat:'sig', name:'Winston Red',            sub:'pakje 20 stuks',  nl:10.50, de:7.80, lu:6.00},
-  {id:'chester',  cat:'sig', name:'Chesterfield Rood',      sub:'pakje 20 stuks',  nl:10.50, de:7.50, lu:5.80},
-  {id:'mark200',  cat:'emm', name:'Mark Rood Tabak',        sub:'emmer 200 gram',  nl:92.00,  de:38.00, lu:34.00},
-  {id:'mark230',  cat:'emm', name:'Mark Rood Tabak',        sub:'emmer 230 gram',  nl:106.00, de:44.00, lu:39.00},
-  {id:'mark400',  cat:'emm', name:'Mark Rood Tabak',        sub:'emmer 400 gram',  nl:184.00, de:76.00, lu:68.00},
-  {id:'mark1kg',  cat:'emm', name:'Mark Rood Tabak',        sub:'emmer 1 kg',      nl:460.00, de:188.00,lu:168.00},
-  {id:'ches200',  cat:'emm', name:'Chesterfield Rood Tabak',sub:'emmer 200 gram',  nl:96.00, de:40.00, lu:36.00},
-  {id:'ches1kg',  cat:'emm', name:'Chesterfield Rood Tabak',sub:'emmer 1 kg',      nl:480.00,de:198.00,lu:175.00},
+  {id:'camel-y',  cat:'sig', name:'Camel Yellow',           sub:'pakje 20 stuks',        nl:11.00, de:8.00,  lu:6.00},
+  {id:'marlboro', cat:'sig', name:'Marlboro Gold / Light',   sub:'pakje 20 stuks (lang)', nl:12.50, de:8.70,  lu:6.50},
+  {id:'winston',  cat:'sig', name:'Winston Red',             sub:'pakje 20 stuks',        nl:10.50, de:7.80,  lu:6.00},
+  {id:'chester',  cat:'sig', name:'Chesterfield Rood',       sub:'pakje 20 stuks',        nl:10.50, de:7.50,  lu:5.80},
+  {id:'mark200',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 200 gram',        nl:92.00, de:38.00, lu:34.00},
+  {id:'mark230',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 230 gram',        nl:106.00,de:44.00, lu:39.00},
+  {id:'mark400',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 400 gram',        nl:184.00,de:76.00, lu:68.00},
+  {id:'mark1kg',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 1 kg',            nl:460.00,de:188.00,lu:168.00},
+  {id:'ches200',  cat:'emm', name:'Chesterfield Rood Tabak', sub:'emmer 200 gram',        nl:96.00, de:40.00, lu:36.00},
+  {id:'ches1kg',  cat:'emm', name:'Chesterfield Rood Tabak', sub:'emmer 1 kg',            nl:480.00,de:198.00,lu:175.00},
 ];
 
 function load(){
@@ -467,9 +443,9 @@ let P=load();
 
 function f(v){return '€\u00a0'+v.toFixed(2).replace('.',',')}
 
-function cellHtml(price, color, flag, isBest, countryName){
-  const cls = isBest ? 'cell cell-winner' : 'cell';
-  const valCls = 'price-val p-'+color;
+function cellHtml(price,color,flag,isBest){
+  const cls=isBest?'cell cell-winner':'cell';
+  const valCls='price-val p-'+color;
   if(isBest){
     return `<div class="${cls}"><div style="text-align:center;width:100%">
       <span class="winner-flag">${flag}</span>
@@ -491,9 +467,9 @@ function rowHtml(p){
     :`<span style="color:var(--cream-dd)">—</span>`;
   return `<div class="prow">
     <div class="cell"><div><div class="prod-name">${p.name}</div><div class="prod-sub">${p.sub}</div></div></div>
-    ${cellHtml(p.nl,'nl','🇳🇱',p.nl===best,'Nederland')}
-    ${cellHtml(p.de,'de','🇩🇪',p.de===best,'Duitsland')}
-    ${cellHtml(p.lu,'lu','🇱🇺',p.lu===best,'Luxemburg')}
+    ${cellHtml(p.nl,'nl','🇳🇱',p.nl===best)}
+    ${cellHtml(p.de,'de','🇩🇪',p.de===best)}
+    ${cellHtml(p.lu,'lu','🇱🇺',p.lu===best)}
     <div class="cell">${savHtml}</div>
   </div>`;
 }
@@ -501,9 +477,8 @@ function rowHtml(p){
 function renderTables(){
   document.getElementById('rows-sig').innerHTML=P.filter(p=>p.cat==='sig').map(rowHtml).join('');
   document.getElementById('rows-emm').innerHTML=P.filter(p=>p.cat==='emm').map(rowHtml).join('');
-  // Re-apply active search filter after re-render
-  const q = document.getElementById('brand-search')?.value||''
-  if(q) filterProducts(q);
+  const q=document.getElementById('brand-search')?.value||'';
+  if(q)filterProducts(q);
 }
 
 function populateSel(){
@@ -511,117 +486,104 @@ function populateSel(){
 }
 
 // ═══ BENZINEDATA ═══
-const FUEL = {
-  euro95: { label:'Euro 95 (E10)', nl:2.11, de:1.65, lu:1.39 },
+const FUEL={
+  euro95:{label:'Euro 95 (E10)',nl:2.11,de:1.65,lu:1.39},
 };
 
 function renderFuelTable(){
-  const rows = Object.entries(FUEL).map(([key, f]) => {
-    const vals = { nl: f.nl, de: f.de, lu: f.lu };
-    const winner = Object.keys(vals).reduce((a,b) => vals[a]<vals[b]?a:b);
-    const flags = {nl:'🇳🇱', de:'🇩🇪', lu:'🇱🇺'};
-    const savingVsNL = { de: f.nl - f.de, lu: f.nl - f.lu, nl: 0 };
-
-    const cell = (country) => {
-      const isWin = country === winner;
-      const save = savingVsNL[country];
-      const inner = isWin
-        ? `<span class="fw-inner"><span class="fuel-flag">${flags[country]}</span><span class="fuel-price">€${f[country].toFixed(3)}</span></span>${save>0?`<span class="fuel-save">✓ €${save.toFixed(2)}/ltr goedkoopst</span>`:''}`
-        : `€${f[country].toFixed(3)}`;
+  const rows=Object.entries(FUEL).map(([key,fd])=>{
+    const vals={nl:fd.nl,de:fd.de,lu:fd.lu};
+    const winner=Object.keys(vals).reduce((a,b)=>vals[a]<vals[b]?a:b);
+    const flags={nl:'🇳🇱',de:'🇩🇪',lu:'🇱🇺'};
+    const savingVsNL={de:fd.nl-fd.de,lu:fd.nl-fd.lu,nl:0};
+    const cell=(country)=>{
+      const isWin=country===winner;
+      const save=savingVsNL[country];
+      const inner=isWin
+        ?`<span class="fw-inner"><span class="fuel-flag">${flags[country]}</span><span class="fuel-price">€${fd[country].toFixed(3)}</span></span>${save>0?`<span class="fuel-save">✓ €${save.toFixed(2)}/ltr goedkoopst</span>`:''}`
+        :`€${fd[country].toFixed(3)}`;
       return `<td class="${isWin?'fuel-winner':''}">${inner}</td>`;
     };
-
-    return `<tr><td><strong>${f.label}</strong></td>${cell('nl')}${cell('de')}${cell('lu')}</tr>`;
+    return `<tr><td><strong>${fd.label}</strong></td>${cell('nl')}${cell('de')}${cell('lu')}</tr>`;
   }).join('');
-
-  const el = document.getElementById('fuel-rows');
-  if(el) el.innerHTML = rows;
+  const el=document.getElementById('fuel-rows');
+  if(el)el.innerHTML=rows;
 }
 
-// Vertrekpunt hints
-const ROUTE_INFO = {
-  leende:    { de: { km:40  }, lu: { km:360 } },
-  panningen: { de: { km:52  }, lu: { km:380 } },
-  custom:    { de: { km:0   }, lu: { km:0   } },
+const ROUTE_INFO={
+  leende:   {de:{km:40},lu:{km:360}},
+  panningen:{de:{km:52},lu:{km:380}},
+  custom:   {de:{km:0 },lu:{km:0  }},
 };
 
 function calcTripCost(){
-  const from  = document.getElementById('c-from').value;
-  const dest  = document.getElementById('c-dest').value;
-  const cons  = parseFloat(document.getElementById('c-cons').value)||10.5;
-  const km    = (ROUTE_INFO[from]?.[dest]?.km)||0;
-  if(!km) return null;
-  const liters = (km * 2) * (cons / 100); // heen+terug
-  const price  = FUEL.euro95.nl;           // NL-prijs per liter (rij van thuis)
-  return { km, liters: Math.round(liters*10)/10, cost: Math.round(liters*price*100)/100 };
+  const from=document.getElementById('c-from').value;
+  const dest=document.getElementById('c-dest').value;
+  const cons=parseFloat(document.getElementById('c-cons').value)||10.5;
+  const km=(ROUTE_INFO[from]?.[dest]?.km)||0;
+  if(!km)return null;
+  const liters=(km*2)*(cons/100);
+  const price=FUEL.euro95.nl;
+  return{km,liters:Math.round(liters*10)/10,cost:Math.round(liters*price*100)/100};
 }
 
 function updateTripCost(){
-  const from = document.getElementById('c-from').value;
-  const dest = document.getElementById('c-dest').value;
-  const trip = calcTripCost();
-  const hint = document.getElementById('fuel-hint');
-  if(trip && trip.km > 0){
-    document.getElementById('c-fuel').value = trip.cost;
-    const destLabel = dest==='de'?'Kaldenkirchen':'Luxemburg';
-    hint.textContent = `${from==='leende'?'Leende':'Panningen'} → ${destLabel} ≈ ${trip.km*2} km heen+terug, ${trip.liters}L @ €${FUEL.euro95.nl.toFixed(3)}/L`;
-  } else {
-    hint.textContent = 'Voer je eigen rijkosten in';
+  const from=document.getElementById('c-from').value;
+  const dest=document.getElementById('c-dest').value;
+  const trip=calcTripCost();
+  const hint=document.getElementById('fuel-hint');
+  if(trip&&trip.km>0){
+    document.getElementById('c-fuel').value=trip.cost;
+    const destLabel=dest==='de'?'Kaldenkirchen':'Luxemburg';
+    hint.textContent=`${from==='leende'?'Leende':'Panningen'} → ${destLabel} ≈ ${trip.km*2} km heen+terug, ${trip.liters}L @ €${FUEL.euro95.nl.toFixed(3)}/L`;
+  }else{
+    hint.textContent='Voer je eigen rijkosten in';
   }
   calcUpdate();
 }
-function fromChanged(){ updateTripCost(); }
-function destChanged(){ updateTripCost(); }
-function consChanged(){ updateTripCost(); }
+function fromChanged(){updateTripCost();}
+function destChanged(){updateTripCost();}
+function consChanged(){updateTripCost();}
 
 function calcUpdate(){
-  const pid    = document.getElementById('c-prod').value;
-  const qty    = parseFloat(document.getElementById('c-qty').value)||0;
-  const tripFuel = parseFloat(document.getElementById('c-fuel').value)||0;
-  const dest   = document.getElementById('c-dest').value;
-  const liters = parseFloat(document.getElementById('c-liters').value)||0;
-  const ftype  = 'euro95';
-  const p      = P.find(x=>x.id===pid);
-  if(!p) return;
-
-  const sigNL      = p.nl * qty;
-  const sigForeign = p[dest] * qty;
-  const sigSave    = sigNL - sigForeign;
-  const fd         = FUEL[ftype];
-  const fuelNL     = fd.nl * liters;
-  const fuelForeign= fd[dest] * liters;
-  const fuelSave   = fuelNL - fuelForeign;
-  const totalSave  = sigSave + fuelSave - tripFuel;
-  const worthIt    = totalSave > 0;
-  const destName   = dest==='de'?'Duitsland':'Luxemburg';
-
-  const sigBlock = qty > 0 ? `
+  const pid=document.getElementById('c-prod').value;
+  const qty=parseFloat(document.getElementById('c-qty').value)||0;
+  const tripFuel=parseFloat(document.getElementById('c-fuel').value)||0;
+  const dest=document.getElementById('c-dest').value;
+  const liters=parseFloat(document.getElementById('c-liters').value)||0;
+  const p=P.find(x=>x.id===pid);
+  if(!p)return;
+  const sigNL=p.nl*qty;
+  const sigForeign=p[dest]*qty;
+  const sigSave=sigNL-sigForeign;
+  const fd=FUEL.euro95;
+  const fuelNL=fd.nl*liters;
+  const fuelForeign=fd[dest]*liters;
+  const fuelSave=fuelNL-fuelForeign;
+  const totalSave=sigSave+fuelSave-tripFuel;
+  const worthIt=totalSave>0;
+  const destName=dest==='de'?'Duitsland':'Luxemburg';
+  const sigBlock=qty>0?`
     <div class='cr-section'>Sigaretten</div>
-    <div class='cr-row'><span>NL prijs (${qty}x)</span><span>€${f(sigNL)}</span></div>
-    <div class='cr-row'><span>${destName} prijs</span><span>€${f(sigForeign)}</span></div>
-    <div class='cr-row win'><span>Besparing sigaretten</span><span>+€${f(sigSave)}</span></div>` : '';
-
-  const fuelBlock = liters > 0 ? `
+    <div class='cr-row'><span>NL prijs (${qty}x)</span><span>${f(sigNL)}</span></div>
+    <div class='cr-row'><span>${destName} prijs</span><span>${f(sigForeign)}</span></div>
+    <div class='cr-row win'><span>Besparing sigaretten</span><span>+${f(sigSave)}</span></div>`:'';
+  const fuelBlock=liters>0?`
     <div class='cr-section'>Benzine (${liters}L ${fd.label})</div>
-    <div class='cr-row'><span>NL prijs</span><span>€${f(fuelNL)}</span></div>
-    <div class='cr-row'><span>${destName} prijs</span><span>€${f(fuelForeign)}</span></div>
-    <div class='cr-row win'><span>Besparing benzine</span><span>+€${f(fuelSave)}</span></div>` : '';
-
-  document.getElementById('calc-result').innerHTML = `
-    ${sigBlock}
-    ${fuelBlock}
-    <div class='cr-row' style='margin-top:10px'><span>Rijkosten heen+terug</span><span>-€${f(tripFuel)}</span></div>
+    <div class='cr-row'><span>NL prijs</span><span>${f(fuelNL)}</span></div>
+    <div class='cr-row'><span>${destName} prijs</span><span>${f(fuelForeign)}</span></div>
+    <div class='cr-row win'><span>Besparing benzine</span><span>+${f(fuelSave)}</span></div>`:'';
+  document.getElementById('calc-result').innerHTML=`
+    ${sigBlock}${fuelBlock}
+    <div class='cr-row' style='margin-top:10px'><span>Rijkosten heen+terug</span><span>-${f(tripFuel)}</span></div>
     <div class='cr-divider'></div>
     <div class='cr-row ${worthIt?"win":"loss"}'>
       <span><strong>Totaal netto voordeel</strong></span>
-      <span><strong>${worthIt?'+':''}€${f(totalSave)}</strong></span>
+      <span><strong>${worthIt?'+':''}${f(totalSave)}</strong></span>
     </div>
     <div class='cr-verdict ${worthIt?"v-ok":"v-no"}'>
-      ${worthIt
-        ? `De rit loont! Je bespaart totaal <strong>€${f(totalSave)}</strong> netto.`
-        : `De rit loont nog niet. Neem meer mee of tank een volle tank.`}
-    </div>
-  `;
+      ${worthIt?`De rit loont! Je bespaart totaal <strong>${f(totalSave)}</strong> netto.`:`De rit loont nog niet. Neem meer mee of tank een volle tank.`}
+    </div>`;
 }
 
 function renderEdit(){
@@ -681,143 +643,170 @@ function showPanel(id,btn){
 
 // ═══ ZOEKFUNCTIE ═══
 function filterProducts(q){
-  const term = q.trim().toLowerCase();
-  const clearBtn = document.getElementById('search-clear');
-  clearBtn.style.display = term ? 'block' : 'none';
-
-  let totalVisible = 0;
-
-  ['rows-sig','rows-emm'].forEach(containerId => {
-    const container = document.getElementById(containerId);
-    if(!container) return;
-    const rows = container.querySelectorAll('.prow');
-    let visibleInSection = 0;
-    rows.forEach(row => {
-      const nameEl  = row.querySelector('.prod-name');
-      const subEl   = row.querySelector('.prod-sub');
-      const text = ((nameEl?.textContent||'') + ' ' + (subEl?.textContent||'')).toLowerCase();
-      const match = !term || text.includes(term);
-      row.classList.toggle('hidden', !match);
-      if(match) { visibleInSection++; totalVisible++; }
+  const term=q.trim().toLowerCase();
+  const clearBtn=document.getElementById('search-clear');
+  clearBtn.style.display=term?'block':'none';
+  ['rows-sig','rows-emm'].forEach(containerId=>{
+    const container=document.getElementById(containerId);
+    if(!container)return;
+    const rows=container.querySelectorAll('.prow');
+    let visibleInSection=0;
+    rows.forEach(row=>{
+      const nameEl=row.querySelector('.prod-name');
+      const subEl=row.querySelector('.prod-sub');
+      const text=((nameEl?.textContent||'')+' '+(subEl?.textContent||'')).toLowerCase();
+      const match=!term||text.includes(term);
+      row.classList.toggle('hidden',!match);
+      if(match)visibleInSection++;
     });
-
-    // Show/hide no-results message per section
-    let noRes = container.querySelector('.no-results');
-    if(visibleInSection === 0 && term){
-      if(!noRes){
-        noRes = document.createElement('div');
-        noRes.className = 'no-results';
-        container.appendChild(noRes);
-      }
-      noRes.textContent = `Geen resultaten voor "${q}"`;
-    } else if(noRes){
-      noRes.remove();
-    }
+    let noRes=container.querySelector('.no-results');
+    if(visibleInSection===0&&term){
+      if(!noRes){noRes=document.createElement('div');noRes.className='no-results';container.appendChild(noRes);}
+      noRes.textContent=`Geen resultaten voor "${q}"`;
+    }else if(noRes){noRes.remove();}
   });
-
-  // Update match count in section labels
   updateMatchCounts(term);
 }
 
 function updateMatchCounts(term){
-  // Remove old counts
-  document.querySelectorAll('.match-count').forEach(el => el.remove());
-  if(!term) return;
-
-  [['rows-sig','🚬 Sigaretten'],['rows-emm','🪣 Tabak Emmers']].forEach(([cid]) => {
-    const container = document.getElementById(cid);
-    if(!container) return;
-    const visible = container.querySelectorAll('.prow:not(.hidden)').length;
-    const label = container.closest('.panel')?.querySelector?.('.cat-label') ||
-                  container.previousElementSibling;
-    // find adjacent cat-label
-    let el = container.previousElementSibling;
-    while(el && !el.classList.contains('cat-label')) el = el.previousElementSibling;
-    if(el && visible > 0){
-      const count = document.createElement('span');
-      count.className = 'match-count';
-      count.textContent = `(${visible})`;
+  document.querySelectorAll('.match-count').forEach(el=>el.remove());
+  if(!term)return;
+  [['rows-sig'],['rows-emm']].forEach(([cid])=>{
+    const container=document.getElementById(cid);
+    if(!container)return;
+    const visible=container.querySelectorAll('.prow:not(.hidden)').length;
+    let el=container.previousElementSibling;
+    while(el&&!el.classList.contains('cat-label'))el=el.previousElementSibling;
+    if(el&&visible>0){
+      const count=document.createElement('span');
+      count.className='match-count';
+      count.textContent=`(${visible})`;
       el.appendChild(count);
     }
   });
 }
 
 function clearSearch(){
-  const inp = document.getElementById('brand-search');
-  inp.value = '';
-  filterProducts('');
-  inp.focus();
+  const inp=document.getElementById('brand-search');
+  inp.value='';filterProducts('');inp.focus();
 }
 
-// ═══ AI PRICE FETCHER ═══
-const CACHE_KEY = 'sp26-ai-cache';
-const CACHE_TTL = 20 * 60 * 60 * 1000; // 20 hours
+// ═══ API KEY BEHEER ═══
+const KEY_STORAGE = 'sp26-apikey';
 
-function setUpdateBadge(state, text){
-  const badge = document.getElementById('update-badge');
-  const dot   = document.getElementById('update-dot');
-  const span  = document.getElementById('update-text');
+function getApiKey(){
+  try{ return localStorage.getItem(KEY_STORAGE)||''; }catch(e){ return ''; }
+}
+
+function openKeyModal(prefill){
+  const modal=document.getElementById('key-modal');
+  const input=document.getElementById('key-input');
+  const hint=document.getElementById('key-hint');
+  input.value=prefill||'';
+  hint.textContent=prefill?'Huidige sleutel (verborgen) — vervang of laat leeg om te bewaren':'Begint met sk-ant-';
+  modal.classList.remove('hidden');
+  setTimeout(()=>input.focus(),100);
+}
+
+function saveApiKey(){
+  const val=document.getElementById('key-input').value.trim();
+  if(!val){
+    document.getElementById('key-hint').textContent='⚠ Voer een geldige sleutel in';
+    return;
+  }
+  if(!val.startsWith('sk-ant-')){
+    document.getElementById('key-hint').textContent='⚠ Sleutel moet beginnen met sk-ant-';
+    return;
+  }
+  try{ localStorage.setItem(KEY_STORAGE,val); }catch(e){}
+  document.getElementById('key-modal').classList.add('hidden');
+  fetchPrices(true);
+}
+
+function skipApiKey(){
+  document.getElementById('key-modal').classList.add('hidden');
+  // Render met standaardprijzen
+  renderTables();renderFuelTable();populateSel();updateTripCost();
+  setUpdateBadge('err','⚠ Geen API-sleutel — vaste prijzen actief');
+}
+
+// ═══ UPDATE BADGE ═══
+function setUpdateBadge(state,text){
+  const badge=document.getElementById('update-badge');
+  const dot=document.getElementById('update-dot');
+  const span=document.getElementById('update-text');
   badge.classList.remove('badge-ok','badge-err');
-  if(state==='ok')  badge.classList.add('badge-ok');
-  if(state==='err') badge.classList.add('badge-err');
-  dot.style.background = state==='ok'?'var(--green)':state==='err'?'#f07060':'var(--amber-l)';
-  span.textContent = text;
+  if(state==='ok')badge.classList.add('badge-ok');
+  if(state==='err')badge.classList.add('badge-err');
+  dot.style.background=state==='ok'?'var(--green)':state==='err'?'#f07060':'var(--amber-l)';
+  span.textContent=text;
 }
 
-function setOverlay(visible, msg='', sub=''){
-  document.getElementById('ai-overlay').classList.toggle('hidden', !visible);
-  if(msg) document.getElementById('ai-msg').textContent = msg;
-  if(sub) document.getElementById('ai-sub').textContent = sub;
+function setOverlay(visible,msg='',sub=''){
+  document.getElementById('ai-overlay').classList.toggle('hidden',!visible);
+  if(msg)document.getElementById('ai-msg').textContent=msg;
+  if(sub)document.getElementById('ai-sub').textContent=sub;
 }
 
 function applyAIPrices(data){
-  // data.tobacco = [{id,nl,de,lu},...], data.fuel = {euro95:{nl,de,lu}}
-  const tobaccoArr = Array.isArray(data) ? data : (data.tobacco || []);
-  const fuelObj    = (!Array.isArray(data) && data.fuel) ? data.fuel : null;
-
-  let updated = 0;
-  tobaccoArr.forEach(u => {
-    const p = P.find(x => x.id === u.id);
-    if(!p) return;
-    if(u.nl && u.nl > 0) { p.nl = u.nl; updated++; }
-    if(u.de && u.de > 0)   p.de = u.de;
-    if(u.lu && u.lu > 0)   p.lu = u.lu;
+  const tobaccoArr=Array.isArray(data)?data:(data.tobacco||[]);
+  const fuelObj=(!Array.isArray(data)&&data.fuel)?data.fuel:null;
+  let updated=0;
+  tobaccoArr.forEach(u=>{
+    const p=P.find(x=>x.id===u.id);
+    if(!p)return;
+    if(u.nl&&u.nl>0){p.nl=u.nl;updated++;}
+    if(u.de&&u.de>0)p.de=u.de;
+    if(u.lu&&u.lu>0)p.lu=u.lu;
   });
-  try{ localStorage.setItem('sp26', JSON.stringify(P)); }catch(e){}
-
+  try{localStorage.setItem('sp26',JSON.stringify(P));}catch(e){}
   if(fuelObj){
-    ['euro95'].forEach(k => {
-      if(!fuelObj[k]) return;
-      const fd = fuelObj[k];
-      if(fd.nl && fd.nl > 0) FUEL[k].nl = fd.nl;
-      if(fd.de && fd.de > 0) FUEL[k].de = fd.de;
-      if(fd.lu && fd.lu > 0) FUEL[k].lu = fd.lu;
+    ['euro95'].forEach(k=>{
+      if(!fuelObj[k])return;
+      const fd=fuelObj[k];
+      if(fd.nl&&fd.nl>0)FUEL[k].nl=fd.nl;
+      if(fd.de&&fd.de>0)FUEL[k].de=fd.de;
+      if(fd.lu&&fd.lu>0)FUEL[k].lu=fd.lu;
     });
   }
-
-  renderTables(); renderFuelTable(); populateSel(); updateTripCost();
+  renderTables();renderFuelTable();populateSel();updateTripCost();
   return updated;
 }
 
+// ═══ AI PRICE FETCHER ═══
+const CACHE_KEY='sp26-ai-cache';
+const CACHE_TTL=20*60*60*1000; // 20 uur
+
 async function fetchPrices(force=false){
-  // Check cache
+  // Check cache eerst
   if(!force){
     try{
-      const c = JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-      if(c && (Date.now()-c.ts) < CACHE_TTL){
-        applyAIPrices(c.prices); // may be object {tobacco,fuel} or legacy array
-        const d = new Date(c.ts);
-        setUpdateBadge('ok', `✓ Bijgewerkt: ${d.toLocaleDateString('nl-NL')} ${d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`);
+      const c=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+      if(c&&(Date.now()-c.ts)<CACHE_TTL){
+        applyAIPrices(c.prices);
+        const d=new Date(c.ts);
+        setUpdateBadge('ok',`✓ Bijgewerkt: ${d.toLocaleDateString('nl-NL')} ${d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`);
         setOverlay(false);
         return;
       }
     }catch(e){}
   }
 
-  setOverlay(true,'🤖 AI zoekt actuele prijzen op...','Tabak + benzine NL · DE · LU — even geduld...');
-  document.getElementById('refresh-btn').disabled = true;
+  // Controleer API-sleutel
+  const apiKey=getApiKey();
+  if(!apiKey){
+    // Toon eerst standaardprijzen, dan modal
+    renderTables();renderFuelTable();populateSel();updateTripCost();
+    setUpdateBadge('err','⚠ Geen API-sleutel ingesteld');
+    setOverlay(false);
+    openKeyModal();
+    return;
+  }
 
-  const prompt = `Je bent een prijsvergelijker voor tabak en brandstof in Nederland, Duitsland (grensgebied Kaldenkirchen/Venlo) en Luxemburg.
+  setOverlay(true,'🤖 AI zoekt actuele prijzen op...','Tabak + benzine NL · DE · LU — even geduld...');
+  document.getElementById('refresh-btn').disabled=true;
+
+  const prompt=`Je bent een prijsvergelijker voor tabak en brandstof in Nederland, Duitsland (grensgebied Kaldenkirchen/Venlo) en Luxemburg.
 
 Zoek ACTUELE prijzen op via web search en geef het resultaat terug als een ENKEL JSON object (geen tekst eromheen, geen markdown).
 
@@ -836,65 +825,70 @@ Structuur:
     {"id":"ches1kg","nl":480.00,"de":198.00,"lu":175.00}
   ],
   "fuel": {
-    "euro95": {"nl":2.11,"de":1.65,"lu":1.39},
+    "euro95": {"nl":2.11,"de":1.65,"lu":1.39}
   }
 }
-
-Zoekopdrachten die je kunt gebruiken:
-- sigarettenprijzen Nederland Duitsland 2026
-- benzineprijs euro 95 Nederland vandaag
-- benzineprijs Duitsland E10 actueel
-- brandstofprijzen Luxemburg actueel carblogger.nl
 
 Gebruik de fallback-waarden hierboven als je geen actuele prijs kunt vinden. Geef ALLEEN het JSON object terug, niets anders.`;
 
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        messages: [{ role: 'user', content: prompt }]
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:prompt}]
       })
     });
 
-    if(!resp.ok) throw new Error('API fout: ' + resp.status);
-    const data = await resp.json();
+    if(!resp.ok){
+      const errText=await resp.text();
+      // Bij ongeldige sleutel: wis hem en vraag opnieuw
+      if(resp.status===401){
+        try{localStorage.removeItem(KEY_STORAGE);}catch(e){}
+        setOverlay(false);
+        renderTables();renderFuelTable();populateSel();updateTripCost();
+        setUpdateBadge('err','⚠ API-sleutel ongeldig — opnieuw invoeren');
+        openKeyModal();
+        return;
+      }
+      throw new Error(`API fout ${resp.status}: ${errText.slice(0,120)}`);
+    }
 
-    // Extract text from response (may include tool use blocks)
-    const textBlocks = (data.content||[]).filter(b=>b.type==='text');
-    const raw = textBlocks.map(b=>b.text).join('');
+    const data=await resp.json();
+    const textBlocks=(data.content||[]).filter(b=>b.type==='text');
+    const raw=textBlocks.map(b=>b.text).join('');
+    const clean=raw.replace(/```json|```/g,'').trim();
+    const objMatch=clean.match(/\{[\s\S]*\}/);
+    const arrMatch=clean.match(/\[[\s\S]*\]/);
+    if(!objMatch&&!arrMatch)throw new Error('Geen geldige JSON ontvangen');
+    const parsed=JSON.parse(objMatch?objMatch[0]:arrMatch[0]);
 
-    // Parse JSON — strip markdown fences, accept object OR array
-    const clean = raw.replace(/```json|```/g,'').trim();
-    const objMatch = clean.match(/\{[\s\S]*\}/);
-    const arrMatch = clean.match(/\[[\s\S]*\]/);
-    if(!objMatch && !arrMatch) throw new Error('Geen geldige JSON ontvangen');
-    const parsed = JSON.parse(objMatch ? objMatch[0] : arrMatch[0]);
-
-    // Cache it
-    try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ts:Date.now(), prices:parsed})); }catch(e){}
-
-    const updated = applyAIPrices(parsed);
-    const now = new Date();
-    setUpdateBadge('ok', `✓ AI-update: ${now.toLocaleDateString('nl-NL')} ${now.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`);
+    try{localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),prices:parsed}));}catch(e){}
+    const updated=applyAIPrices(parsed);
+    const now=new Date();
+    setUpdateBadge('ok',`✓ AI-update: ${now.toLocaleDateString('nl-NL')} ${now.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`);
     setOverlay(false);
 
-  } catch(err) {
-    console.error('AI fetch error:', err);
-    setUpdateBadge('err', '⚠ AI-update mislukt — vaste prijzen actief');
+  }catch(err){
+    console.error('AI fetch error:',err);
+    setUpdateBadge('err','⚠ AI-update mislukt — vaste prijzen actief');
     setOverlay(false);
-    // Still show the hardcoded prices
-    renderTables(); renderFuelTable(); populateSel(); updateTripCost();
+    renderTables();renderFuelTable();populateSel();updateTripCost();
   }
 
-  document.getElementById('refresh-btn').disabled = false;
+  document.getElementById('refresh-btn').disabled=false;
 }
 
-// Init — start with defaults immediately, then fetch AI prices
-renderTables(); renderFuelTable(); populateSel(); updateTripCost();
+// Init
+renderTables();renderFuelTable();populateSel();updateTripCost();
 fetchPrices();
 </script>
 
