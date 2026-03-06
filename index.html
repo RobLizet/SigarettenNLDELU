@@ -207,6 +207,29 @@ MAIN
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 /* ══════════════════════════════════════════════════
+FILTER ROW
+══════════════════════════════════════════════════ */
+.filter-row {
+display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;
+}
+.fbtn {
+display:inline-flex; align-items:center; gap:5px;
+padding:8px 14px; border-radius:20px;
+font-family:‘Barlow Condensed’,sans-serif;
+font-size:14px; font-weight:700; letter-spacing:.4px;
+cursor:pointer; transition:all .18s; border:2px solid transparent;
+background:var(–bg3); color:var(–muted);
+}
+.fbtn:hover { color:var(–cream); background:var(–bg4); }
+.fbtn.nl.on { background:var(–nl);  color:white; box-shadow:0 0 16px rgba(255,61,46,.5); border-color:var(–nl); }
+.fbtn.de.on { background:var(–de);  color:white; box-shadow:0 0 16px rgba(41,121,255,.5); border-color:var(–de); }
+.fbtn.be.on { background:var(–be);  color:#1a1400; box-shadow:0 0 16px rgba(255,193,7,.5); border-color:var(–be); }
+.fbtn.lu.on { background:var(–lu);  color:#001a0d; box-shadow:0 0 16px rgba(0,200,117,.5); border-color:var(–lu); }
+.fbtn.all.on { background:var(–bg4); color:var(–cream); border-color:var(–line2); }
+/* dim non-selected columns */
+.col-dim { opacity:.12 !important; transition:opacity .2s; }
+
+/* ══════════════════════════════════════════════════
 SEARCH
 ══════════════════════════════════════════════════ */
 .search-bar {
@@ -716,12 +739,12 @@ footer strong { color:var(–muted); }
   <a class="abtn" href="https://maps.google.com/?q=Kaldenkirchen+tabak" target="_blank" style="text-decoration:none;white-space:nowrap">📍 Kaldenkirchen</a>
 </div>
 
-<div class="legend">
-  <div class="li"><div class="ld" style="background:var(--nl2)"></div>🇳🇱 Nederland</div>
-  <div class="li"><div class="ld" style="background:var(--de2)"></div>🇩🇪 Duitsland</div>
-  <div class="li"><div class="ld" style="background:var(--be2)"></div>🇧🇪 België</div>
-  <div class="li"><div class="ld" style="background:var(--lu2)"></div>🇱🇺 Luxemburg</div>
-  <div class="li"><div class="ld" style="background:var(--win)"></div>Goedkoopste</div>
+<div class="filter-row">
+  <button class="fbtn nl" onclick="filterCountry('nl',this)">🇳🇱 Nederland</button>
+  <button class="fbtn de" onclick="filterCountry('de',this)">🇩🇪 Duitsland</button>
+  <button class="fbtn be" onclick="filterCountry('be',this)">🇧🇪 België</button>
+  <button class="fbtn lu" onclick="filterCountry('lu',this)">🇱🇺 Luxemburg</button>
+  <button class="fbtn all active-all" onclick="filterCountry('all',this)">✦ Alles</button>
 </div>
 
 <div class="sec-head"><div class="sec-bar sig"></div>Sigaretten — pakje 20 stuks</div>
@@ -1292,48 +1315,37 @@ async function fetchPrices(force=false){
 /* ═══════════════════════════════════════════
    COUNTRY COLUMN FILTER
 ═══════════════════════════════════════════ */
+// col index in table: 0=product, 1=NL, 2=DE, 3=BE, 4=LU, 5=besparing
+const COL_MAP = { nl:1, de:2, be:3, lu:4 };
 let activeCountry = null;
 
-// column index per country (0-based, excluding first product col)
-const COL_IDX = { nl:0, de:1, be:2, lu:3 };
-
 function filterCountry(country, btn){
-  // Toggle off if same country clicked again
-  if(activeCountry === country){
+  // Mark button active
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+
+  if(country === 'all'){
     activeCountry = null;
-    document.querySelectorAll('.cpill').forEach(el=>el.classList.remove('active'));
-    clearColFilter();
+    document.querySelectorAll('.ph, .pc').forEach(el=>el.classList.remove('col-dim'));
     return;
   }
   activeCountry = country;
-  // Update pill styles
-  document.querySelectorAll('.cpill').forEach(el=>el.classList.remove('active'));
-  btn.classList.add('active');
-  applyColFilter(country);
-}
+  const showIdx = COL_MAP[country];
 
-function applyColFilter(country){
-  const idx = COL_IDX[country]; // 0=NL,1=DE,2=BE,3=LU
-  // table headers: col 0=product, 1=nl, 2=de, 3=be, 4=lu, 5=besparing
-  const showHead = idx + 1; // +1 for product col offset
+  // Header cols
   document.querySelectorAll('.ptbl-head').forEach(head=>{
-    const cols = head.querySelectorAll('.ph');
-    cols.forEach((col,i)=>{
-      if(i===0 || i===5) { col.classList.remove('col-dim'); return; } // product + besparing always show
-      col.classList.toggle('col-dim', i !== showHead);
-    });
-  });
-  document.querySelectorAll('.prow').forEach(row=>{
-    const cols = row.querySelectorAll('.pc');
-    cols.forEach((col,i)=>{
+    head.querySelectorAll('.ph').forEach((col,i)=>{
       if(i===0 || i===5) { col.classList.remove('col-dim'); return; }
-      col.classList.toggle('col-dim', i !== showHead);
+      col.classList.toggle('col-dim', i !== showIdx);
     });
   });
-}
-
-function clearColFilter(){
-  document.querySelectorAll('.ph,.pc').forEach(el=>el.classList.remove('col-dim'));
+  // Data rows
+  document.querySelectorAll('.prow').forEach(row=>{
+    row.querySelectorAll('.pc').forEach((col,i)=>{
+      if(i===0 || i===5) { col.classList.remove('col-dim'); return; }
+      col.classList.toggle('col-dim', i !== showIdx);
+    });
+  });
 }
 
 /* ═══════════════════════════════════════════
