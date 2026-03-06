@@ -1174,7 +1174,7 @@ function applyAIPrices(data){
 const CKEY='sp26-ai-cache', TTL=20*60*60*1000;
 
 // Probeer meerdere model-namen
-const MODELS=['claude-3-5-haiku-20241022','claude-3-haiku-20240307','claude-haiku-4-5-20251001'];
+const MODELS=['claude-3-5-haiku-20241022','claude-3-5-sonnet-20241022','claude-3-haiku-20240307'];
 
 const PROMPT=`Je bent een prijsvergelijker voor tabak en brandstof in Nederland, Duitsland (Kaldenkirchen), België (Hamont-Achel) en Luxemburg. Geef een ENKEL JSON object terug, geen tekst of markdown.
 
@@ -1248,8 +1248,10 @@ async function fetchPrices(force=false){
 
       if(!resp.ok){
         const et=await resp.text();
-        lastErr=`${resp.status}: ${et.slice(0,80)}`;
-        continue; // probeer volgend model
+        lastErr=`[${model}] ${resp.status}: ${et.slice(0,200)}`;
+        setOverlay(true, `Poging mislukt (${model})`, `${resp.status}: ${et.slice(0,120)}`);
+        await new Promise(r=>setTimeout(r,2500)); // toon 2.5s zodat je het kunt lezen
+        continue;
       }
 
       const data=await resp.json();
@@ -1270,9 +1272,8 @@ async function fetchPrices(force=false){
     }
   }
 
-  // Alle modellen gefaald
-  console.error('AI fetch mislukt:',lastErr);
-  setStatus('err',`Mislukt: ${lastErr.slice(0,50)}`);
+  // Alle modellen gefaald — toon volledige fout op scherm
+  setStatus('err', lastErr || 'Onbekende fout');
   setOverlay(false);
   renderTables();populateSel();updateTripCost();
   $('refresh-btn').disabled=false;
