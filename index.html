@@ -86,13 +86,22 @@ display:inline-flex; align-items:center; gap:4px;
 padding:4px 10px; border-radius:20px;
 font-family:‘Barlow Condensed’,sans-serif;
 font-size:12px; font-weight:700; letter-spacing:.5px;
-text-transform:uppercase;
+text-transform:uppercase; cursor:pointer;
+transition:all .18s; user-select:none;
 }
+.cpill:hover { transform:scale(1.08); }
 .cpill.nl { background:var(–nl-bg); border:1px solid rgba(255,61,46,.35); color:var(–nl2); }
 .cpill.de { background:var(–de-bg); border:1px solid rgba(41,121,255,.35); color:var(–de2); }
 .cpill.be { background:var(–be-bg); border:1px solid rgba(255,193,7,.35);  color:var(–be2); }
 .cpill.lu { background:var(–lu-bg); border:1px solid rgba(0,200,117,.35);  color:var(–lu2); }
+.cpill.active.nl { background:var(–nl); color:white; border-color:var(–nl); box-shadow:0 0 14px rgba(255,61,46,.6); transform:scale(1.08); }
+.cpill.active.de { background:var(–de); color:white; border-color:var(–de); box-shadow:0 0 14px rgba(41,121,255,.6); transform:scale(1.08); }
+.cpill.active.be { background:var(–be); color:#1a1400; border-color:var(–be); box-shadow:0 0 14px rgba(255,193,7,.6); transform:scale(1.08); }
+.cpill.active.lu { background:var(–lu); color:#001a0d; border-color:var(–lu); box-shadow:0 0 14px rgba(0,200,117,.6); transform:scale(1.08); }
 @media(max-width:500px){.cpill span:last-child{display:none}}
+/* country column filter */
+.col-dim { opacity:.15 !important; transition:opacity .2s; }
+.col-bright { transition:opacity .2s; }
 
 /* ══════════════════════════════════════════════════
 HERO
@@ -612,10 +621,10 @@ footer strong { color:var(–muted); }
       <span>Prijs<em>vergelijker</em></span>
     </div>
     <div class="country-pills">
-      <span class="cpill nl">🇳🇱 <span>NL</span></span>
-      <span class="cpill de">🇩🇪 <span>DE</span></span>
-      <span class="cpill be">🇧🇪 <span>BE</span></span>
-      <span class="cpill lu">🇱🇺 <span>LU</span></span>
+      <span class="cpill nl" onclick="filterCountry('nl',this)" title="Filter op Nederland">🇳🇱 <span>NL</span></span>
+      <span class="cpill de" onclick="filterCountry('de',this)" title="Filter op Duitsland">🇩🇪 <span>DE</span></span>
+      <span class="cpill be" onclick="filterCountry('be',this)" title="Filter op België">🇧🇪 <span>BE</span></span>
+      <span class="cpill lu" onclick="filterCountry('lu',this)" title="Filter op Luxemburg">🇱🇺 <span>LU</span></span>
     </div>
   </div>
 </header>
@@ -1277,6 +1286,54 @@ async function fetchPrices(force=false){
   setOverlay(false);
   renderTables();populateSel();updateTripCost();
   $('refresh-btn').disabled=false;
+}
+
+
+/* ═══════════════════════════════════════════
+   COUNTRY COLUMN FILTER
+═══════════════════════════════════════════ */
+let activeCountry = null;
+
+// column index per country (0-based, excluding first product col)
+const COL_IDX = { nl:0, de:1, be:2, lu:3 };
+
+function filterCountry(country, btn){
+  // Toggle off if same country clicked again
+  if(activeCountry === country){
+    activeCountry = null;
+    document.querySelectorAll('.cpill').forEach(el=>el.classList.remove('active'));
+    clearColFilter();
+    return;
+  }
+  activeCountry = country;
+  // Update pill styles
+  document.querySelectorAll('.cpill').forEach(el=>el.classList.remove('active'));
+  btn.classList.add('active');
+  applyColFilter(country);
+}
+
+function applyColFilter(country){
+  const idx = COL_IDX[country]; // 0=NL,1=DE,2=BE,3=LU
+  // table headers: col 0=product, 1=nl, 2=de, 3=be, 4=lu, 5=besparing
+  const showHead = idx + 1; // +1 for product col offset
+  document.querySelectorAll('.ptbl-head').forEach(head=>{
+    const cols = head.querySelectorAll('.ph');
+    cols.forEach((col,i)=>{
+      if(i===0 || i===5) { col.classList.remove('col-dim'); return; } // product + besparing always show
+      col.classList.toggle('col-dim', i !== showHead);
+    });
+  });
+  document.querySelectorAll('.prow').forEach(row=>{
+    const cols = row.querySelectorAll('.pc');
+    cols.forEach((col,i)=>{
+      if(i===0 || i===5) { col.classList.remove('col-dim'); return; }
+      col.classList.toggle('col-dim', i !== showHead);
+    });
+  });
+}
+
+function clearColFilter(){
+  document.querySelectorAll('.ph,.pc').forEach(el=>el.classList.remove('col-dim'));
 }
 
 /* ═══════════════════════════════════════════
