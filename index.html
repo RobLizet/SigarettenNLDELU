@@ -123,6 +123,22 @@ footer{text-align:center;padding:16px;font-size:11px;color:var(–cream-dd);bord
 .tabs{overflow-x:auto}
 .tab{font-size:11px;padding:9px 5px}
 }
+/* ─── BENZINE TAB ─── */
+.fuel-table{width:100%;border-collapse:collapse;margin-bottom:6px}
+.fuel-table th{background:var(–bg3);color:var(–amber-l);font-family:‘IBM Plex Mono’,monospace;font-size:11px;text-transform:uppercase;letter-spacing:.6px;padding:10px 14px;text-align:center;border-bottom:1px solid var(–brd)}
+.fuel-table th:first-child{text-align:left}
+.fuel-table td{padding:12px 14px;border-bottom:1px solid var(–brd);font-family:‘IBM Plex Mono’,monospace;font-size:13px;text-align:center;transition:background .2s}
+.fuel-table td:first-child{text-align:left;font-family:‘IBM Plex Sans’,monospace;font-weight:600;color:var(–cream)}
+.fuel-table tr:last-child td{border-bottom:none}
+.fuel-table tr:hover td{background:rgba(255,255,255,.03)}
+.fuel-winner{background:rgba(80,180,100,.12)!important;font-weight:700;color:#4cb86a}
+.fuel-winner .fw-inner{display:inline-flex;align-items:center;gap:5px}
+.fuel-flag{font-size:14px}
+.fuel-price{font-size:14px}
+.fuel-save{font-size:10px;color:#4cb86a;opacity:.85;display:block;margin-top:2px;font-family:‘IBM Plex Mono’,monospace}
+.fuel-card{background:var(–bg2);border:1px solid var(–brd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.fuel-note{font-size:11.5px;color:var(–cream-d);background:rgba(201,125,10,.06);border:1px solid var(–brd);border-radius:8px;padding:12px 14px;margin-bottom:6px;line-height:1.8}
+
 /* ZOEKBALK */
 .search-wrap{position:relative;margin-bottom:16px}
 .search-input{
@@ -164,7 +180,7 @@ color:var(–amber);margin-left:8px;opacity:.8}
 
 <div class="ai-overlay" id="ai-overlay">
   <div class="ai-spinner"></div>
-  <div class="ai-msg" id="ai-msg">🤖 AI zoekt actuele tabaksprijzen op...</div>
+  <div class="ai-msg" id="ai-msg">🤖 AI zoekt actuele prijzen op...</div>
   <div class="ai-sub" id="ai-sub">Nederland · Duitsland · Luxemburg</div>
 </div>
 
@@ -254,24 +270,52 @@ color:var(–amber);margin-left:8px;opacity:.8}
 
   </div>
 
-  <!-- ═══ CALCULATOR ═══ -->
+  <!-- ═══ BENZINE ═══ -->
+
+  <div id="panel-benzine" class="panel">
+    <div class="s-head">
+      <div class="s-title">⛽ Benzineprijzen</div>
+      <div class="s-desc">Actuele prijzen per liter — goedkoopste optie groen gemarkeerd</div>
+    </div>
+
+```
+<div class="fuel-note">
+  💡 <strong>Tip:</strong> Combineer je rit voor sigaretten met een volle tank — dan profiteer je dubbel.
+  In Duitsland tankstations langs de B509 bij Kaldenkirchen. In Luxemburg: tankstations A3/A6 snelweg (soms rij).
+  Gebruik de <strong>🧮 Besparingscalculator</strong> voor je totale voordeel.
+</div>
+
+<div class="fuel-card">
+  <table class="fuel-table" id="fuel-table-benzine">
+    <thead>
+      <tr>
+        <th>Brandstof</th>
+        <th>🇳🇱 Nederland</th>
+        <th>🇩🇪 Duitsland</th>
+        <th>🇱🇺 Luxemburg</th>
+      </tr>
+    </thead>
+    <tbody id="fuel-rows"></tbody>
+  </table>
+</div>
+<div style="font-size:10.5px;color:var(--cream-dd);font-family:'IBM Plex Mono',monospace;margin-top:-8px;margin-bottom:16px">
+  Bronnen: carblogger.nl · ANWB · GlobalPetrolPrices · dagelijks bijgewerkt door AI
+</div>
+```
+
+  </div>
+
+```
+<!-- ═══ CALCULATOR ═══ -->
+```
 
   <div id="panel-calc" class="panel">
     <div class="s-head">
-      <div class="s-title">Besparingscalculator</div>
-      <div class="s-desc">Hoeveel verdien je terug op een rit naar Duitsland of Luxemburg?</div>
+      <div class="s-title">🧮 Besparingscalculator</div>
+      <div class="s-desc">Bereken je totale voordeel: sigaretten én benzine samen</div>
     </div>
     <div class="calc-card">
       <div class="calc-grid">
-        <div class="cf">
-          <label>Product</label>
-          <select id="c-prod" onchange="calcUpdate()"></select>
-        </div>
-        <div class="cf">
-          <label>Aantal stuks</label>
-          <input type="number" id="c-qty" value="10" min="1" max="400" oninput="calcUpdate()">
-          <div class="hint">pakjes of emmers</div>
-        </div>
         <div class="cf">
           <label>Vertrekpunt</label>
           <select id="c-from" onchange="fromChanged()">
@@ -291,6 +335,33 @@ color:var(–amber);margin-left:8px;opacity:.8}
           <label>Benzinekosten rit (€)</label>
           <input type="number" id="c-fuel" value="8" min="0" step="0.5" oninput="calcUpdate()">
           <div class="hint" id="fuel-hint">Leende → Kaldenkirchen ≈ €7–9 (heen+terug)</div>
+        </div>
+        <div class="cf" style="grid-column:1/-1;border-top:1px solid var(--brd);padding-top:14px;margin-top:4px">
+          <label style="color:var(--amber-l);font-weight:700">🚬 Sigaretten</label>
+        </div>
+        <div class="cf">
+          <label>Product</label>
+          <select id="c-prod" onchange="calcUpdate()"></select>
+        </div>
+        <div class="cf">
+          <label>Aantal pakjes/emmers</label>
+          <input type="number" id="c-qty" value="10" min="0" max="400" oninput="calcUpdate()">
+          <div class="hint">0 = geen sigaretten meenemen</div>
+        </div>
+        <div class="cf" style="grid-column:1/-1;border-top:1px solid var(--brd);padding-top:14px;margin-top:4px">
+          <label style="color:var(--amber-l);font-weight:700">⛽ Benzine tanken</label>
+        </div>
+        <div class="cf">
+          <label>Brandstof</label>
+          <select id="c-fueltype" onchange="calcUpdate()">
+            <option value="euro95">Euro 95 (E10)</option>
+            <option value="diesel">Diesel</option>
+          </select>
+        </div>
+        <div class="cf">
+          <label>Liters tanken</label>
+          <input type="number" id="c-liters" value="50" min="0" max="200" oninput="calcUpdate()">
+          <div class="hint">0 = niet tanken onderweg</div>
         </div>
       </div>
       <div class="calc-result" id="calc-result"></div>
@@ -430,6 +501,35 @@ function populateSel(){
   document.getElementById('c-prod').innerHTML=P.map(p=>`<option value="${p.id}">${p.name} (${p.sub})</option>`).join('');
 }
 
+// ═══ BENZINEDATA ═══
+const FUEL = {
+  euro95: { label:'Euro 95 (E10)', nl:2.11, de:1.65, lu:1.39 },
+  diesel:  { label:'Diesel (B7)',   nl:1.85, de:1.52, lu:1.38 },
+};
+
+function renderFuelTable(){
+  const rows = Object.entries(FUEL).map(([key, f]) => {
+    const vals = { nl: f.nl, de: f.de, lu: f.lu };
+    const winner = Object.keys(vals).reduce((a,b) => vals[a]<vals[b]?a:b);
+    const flags = {nl:'🇳🇱', de:'🇩🇪', lu:'🇱🇺'};
+    const savingVsNL = { de: f.nl - f.de, lu: f.nl - f.lu, nl: 0 };
+
+    const cell = (country) => {
+      const isWin = country === winner;
+      const save = savingVsNL[country];
+      const inner = isWin
+        ? `<span class="fw-inner"><span class="fuel-flag">${flags[country]}</span><span class="fuel-price">€${f[country].toFixed(3)}</span></span>${save>0?`<span class="fuel-save">✓ €${save.toFixed(2)}/ltr goedkoopst</span>`:''}`
+        : `€${f[country].toFixed(3)}`;
+      return `<td class="${isWin?'fuel-winner':''}">${inner}</td>`;
+    };
+
+    return `<tr><td><strong>${f.label}</strong></td>${cell('nl')}${cell('de')}${cell('lu')}</tr>`;
+  }).join('');
+
+  const el = document.getElementById('fuel-rows');
+  if(el) el.innerHTML = rows;
+}
+
 // Vertrekpunt hints
 const ROUTE_INFO = {
   leende:    { de: { km:40,  fuel:8,  hint:'Leende → Kaldenkirchen ≈ 40 km, €7–9 (heen+terug)'},
@@ -465,28 +565,53 @@ function destChanged(){
 }
 
 function calcUpdate(){
-  const pid=document.getElementById('c-prod').value;
-  const qty=parseFloat(document.getElementById('c-qty').value)||1;
-  const fuel=parseFloat(document.getElementById('c-fuel').value)||0;
-  const dest=document.getElementById('c-dest').value;
-  const p=P.find(x=>x.id===pid);if(!p)return;
-  const priceD=dest==='de'?p.de:p.lu;
-  const costNL=p.nl*qty;
-  const costD=priceD*qty;
-  const savRaw=costNL-costD;
-  const savNet=savRaw-fuel;
-  const dname=dest==='de'?'🇩🇪 Duitsland':'🇱🇺 Luxemburg';
-  const dcol=dest==='de'?'de':'lu';
-  const wording=savNet>=0
-    ?`✅ De rit loont! Netto besparing: <strong style="color:var(--green)">${f(savNet)}</strong> op ${qty} ${qty===1?'stuks':'stuks'}.`
-    :`⚠️ Bij deze hoeveelheid weegt het benzinegeld niet op. Neem meer mee of combineer met andere boodschappen.`;
-  document.getElementById('calc-result').innerHTML=`
-    <div class="rrow"><span class="rlabel">Kosten 🇳🇱 Nederland (${qty}×)</span><span class="rval" style="color:#f07060">${f(costNL)}</span></div>
-    <div class="rrow"><span class="rlabel">Kosten ${dname} (${qty}×)</span><span class="rval" style="color:var(--${dcol})">${f(costD)}</span></div>
-    <div class="rrow"><span class="rlabel">Besparing op product</span><span class="rval" style="color:var(--green)">${f(savRaw)}</span></div>
-    <div class="rrow"><span class="rlabel">Benzinekosten rit</span><span class="rval" style="color:#f07060">−${f(fuel)}</span></div>
-    <div class="rrow"><span class="rlabel" style="font-weight:600;color:var(--cream)">Netto besparing</span><span class="rbig" style="${savNet<0?'color:#f07060':''}">${savNet>=0?'+':''}${f(savNet)}</span></div>
-    <p style="font-size:12px;color:var(--cream-d);margin-top:12px">${wording}</p>`;
+  const pid    = document.getElementById('c-prod').value;
+  const qty    = parseFloat(document.getElementById('c-qty').value)||0;
+  const tripFuel = parseFloat(document.getElementById('c-fuel').value)||0;
+  const dest   = document.getElementById('c-dest').value;
+  const liters = parseFloat(document.getElementById('c-liters').value)||0;
+  const ftype  = document.getElementById('c-fueltype').value;
+  const p      = P.find(x=>x.id===pid);
+  if(!p) return;
+
+  const sigNL      = p.nl * qty;
+  const sigForeign = p[dest] * qty;
+  const sigSave    = sigNL - sigForeign;
+  const fd         = FUEL[ftype];
+  const fuelNL     = fd.nl * liters;
+  const fuelForeign= fd[dest] * liters;
+  const fuelSave   = fuelNL - fuelForeign;
+  const totalSave  = sigSave + fuelSave - tripFuel;
+  const worthIt    = totalSave > 0;
+  const destName   = dest==='de'?'Duitsland':'Luxemburg';
+
+  const sigBlock = qty > 0 ? `
+    <div class='cr-section'>Sigaretten</div>
+    <div class='cr-row'><span>NL prijs (${qty}x)</span><span>€${f(sigNL)}</span></div>
+    <div class='cr-row'><span>${destName} prijs</span><span>€${f(sigForeign)}</span></div>
+    <div class='cr-row win'><span>Besparing sigaretten</span><span>+€${f(sigSave)}</span></div>` : '';
+
+  const fuelBlock = liters > 0 ? `
+    <div class='cr-section'>Benzine (${liters}L ${fd.label})</div>
+    <div class='cr-row'><span>NL prijs</span><span>€${f(fuelNL)}</span></div>
+    <div class='cr-row'><span>${destName} prijs</span><span>€${f(fuelForeign)}</span></div>
+    <div class='cr-row win'><span>Besparing benzine</span><span>+€${f(fuelSave)}</span></div>` : '';
+
+  document.getElementById('calc-result').innerHTML = `
+    ${sigBlock}
+    ${fuelBlock}
+    <div class='cr-row' style='margin-top:10px'><span>Rijkosten heen+terug</span><span>-€${f(tripFuel)}</span></div>
+    <div class='cr-divider'></div>
+    <div class='cr-row ${worthIt?"win":"loss"}'>
+      <span><strong>Totaal netto voordeel</strong></span>
+      <span><strong>${worthIt?'+':''}€${f(totalSave)}</strong></span>
+    </div>
+    <div class='cr-verdict ${worthIt?"v-ok":"v-no"}'>
+      ${worthIt
+        ? `De rit loont! Je bespaart totaal <strong>€${f(totalSave)}</strong> netto.`
+        : `De rit loont nog niet. Neem meer mee of tank een volle tank.`}
+    </div>
+  `;
 }
 
 function renderEdit(){
@@ -635,10 +760,13 @@ function setOverlay(visible, msg='', sub=''){
   if(sub) document.getElementById('ai-sub').textContent = sub;
 }
 
-function applyAIPrices(prices){
-  // prices is an array [{id, nl, de, lu}, ...]
+function applyAIPrices(data){
+  // data.tobacco = [{id,nl,de,lu},...], data.fuel = {euro95:{nl,de,lu}, diesel:{nl,de,lu}}
+  const tobaccoArr = Array.isArray(data) ? data : (data.tobacco || []);
+  const fuelObj    = (!Array.isArray(data) && data.fuel) ? data.fuel : null;
+
   let updated = 0;
-  prices.forEach(u => {
+  tobaccoArr.forEach(u => {
     const p = P.find(x => x.id === u.id);
     if(!p) return;
     if(u.nl && u.nl > 0) { p.nl = u.nl; updated++; }
@@ -646,7 +774,18 @@ function applyAIPrices(prices){
     if(u.lu && u.lu > 0)   p.lu = u.lu;
   });
   try{ localStorage.setItem('sp26', JSON.stringify(P)); }catch(e){}
-  renderTables(); populateSel(); calcUpdate();
+
+  if(fuelObj){
+    ['euro95','diesel'].forEach(k => {
+      if(!fuelObj[k]) return;
+      const fd = fuelObj[k];
+      if(fd.nl && fd.nl > 0) FUEL[k].nl = fd.nl;
+      if(fd.de && fd.de > 0) FUEL[k].de = fd.de;
+      if(fd.lu && fd.lu > 0) FUEL[k].lu = fd.lu;
+    });
+  }
+
+  renderTables(); renderFuelTable(); populateSel(); calcUpdate();
   return updated;
 }
 
@@ -656,7 +795,7 @@ async function fetchPrices(force=false){
     try{
       const c = JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
       if(c && (Date.now()-c.ts) < CACHE_TTL){
-        applyAIPrices(c.prices);
+        applyAIPrices(c.prices); // may be object {tobacco,fuel} or legacy array
         const d = new Date(c.ts);
         setUpdateBadge('ok', `✓ Bijgewerkt: ${d.toLocaleDateString('nl-NL')} ${d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`);
         setOverlay(false);
@@ -665,41 +804,40 @@ async function fetchPrices(force=false){
     }catch(e){}
   }
 
-  setOverlay(true,'🤖 AI zoekt actuele tabaksprijzen op...','Duurt even — één momentje...');
+  setOverlay(true,'🤖 AI zoekt actuele prijzen op...','Tabak + benzine NL · DE · LU — even geduld...');
   document.getElementById('refresh-btn').disabled = true;
 
-  const prompt = `Je bent een prijsvergelijker voor tabaksproducten in Nederland, Duitsland (grensgebied Kaldenkirchen/Venlo) en Luxemburg.
+  const prompt = `Je bent een prijsvergelijker voor tabak en brandstof in Nederland, Duitsland (grensgebied Kaldenkirchen/Venlo) en Luxemburg.
 
-Zoek de ACTUELE prijzen op voor onderstaande producten en geef ze terug als JSON array.
-Gebruik je web search tool om de meest recente prijzen te vinden.
+Zoek ACTUELE prijzen op via web search en geef het resultaat terug als een ENKEL JSON object (geen tekst eromheen, geen markdown).
 
-Producten:
-- Camel Yellow sigaretten (pakje 20 stuks)
-- Marlboro Gold/Light sigaretten (pakje 20 stuks)
-- Winston Red sigaretten (pakje 20 stuks)
-- Chesterfield Rood sigaretten (pakje 20 stuks)
-- Mark Rood tabak emmer 200 gram
-- Mark Rood tabak emmer 230 gram
-- Mark Rood tabak emmer 400 gram
-- Mark Rood tabak emmer 1 kg
-- Chesterfield Rood tabak emmer 200 gram
-- Chesterfield Rood tabak emmer 1 kg
+Structuur:
+{
+  "tobacco": [
+    {"id":"camel-y","nl":11.00,"de":8.00,"lu":6.00},
+    {"id":"marlboro","nl":12.50,"de":8.70,"lu":6.50},
+    {"id":"winston","nl":10.50,"de":7.80,"lu":6.00},
+    {"id":"chester","nl":10.50,"de":7.50,"lu":5.80},
+    {"id":"mark200","nl":92.00,"de":38.00,"lu":34.00},
+    {"id":"mark230","nl":106.00,"de":44.00,"lu":39.00},
+    {"id":"mark400","nl":184.00,"de":76.00,"lu":68.00},
+    {"id":"mark1kg","nl":460.00,"de":188.00,"lu":168.00},
+    {"id":"ches200","nl":96.00,"de":40.00,"lu":36.00},
+    {"id":"ches1kg","nl":480.00,"de":198.00,"lu":175.00}
+  ],
+  "fuel": {
+    "euro95": {"nl":2.11,"de":1.65,"lu":1.39},
+    "diesel":  {"nl":1.85,"de":1.52,"lu":1.38}
+  }
+}
 
-Geef ALLEEN een JSON array terug, geen tekst eromheen, in dit exacte formaat:
-[
-  {"id":"camel-y","nl":11.00,"de":8.00,"lu":6.00},
-  {"id":"marlboro","nl":12.50,"de":8.70,"lu":6.50},
-  {"id":"winston","nl":10.50,"de":7.80,"lu":6.00},
-  {"id":"chester","nl":10.50,"de":7.50,"lu":5.80},
-  {"id":"mark200","nl":92.00,"de":38.00,"lu":34.00},
-  {"id":"mark230","nl":106.00,"de":44.00,"lu":39.00},
-  {"id":"mark400","nl":184.00,"de":76.00,"lu":68.00},
-  {"id":"mark1kg","nl":460.00,"de":188.00,"lu":168.00},
-  {"id":"ches200","nl":96.00,"de":40.00,"lu":36.00},
-  {"id":"ches1kg","nl":480.00,"de":198.00,"lu":175.00}
-]
+Zoekopdrachten die je kunt gebruiken:
+- sigarettenprijzen Nederland Duitsland 2026
+- benzineprijs euro 95 Nederland vandaag
+- benzineprijs Duitsland E10 actueel
+- brandstofprijzen Luxemburg actueel carblogger.nl
 
-Gebruik de bovenstaande waarden als fallback als je geen actuele prijs kunt vinden voor een specifiek product. Geef ALLEEN de JSON array terug, niets anders.`;
+Gebruik de fallback-waarden hierboven als je geen actuele prijs kunt vinden. Geef ALLEEN het JSON object terug, niets anders.`;
 
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
@@ -720,16 +858,17 @@ Gebruik de bovenstaande waarden als fallback als je geen actuele prijs kunt vind
     const textBlocks = (data.content||[]).filter(b=>b.type==='text');
     const raw = textBlocks.map(b=>b.text).join('');
 
-    // Parse JSON — strip any markdown fences
+    // Parse JSON — strip markdown fences, accept object OR array
     const clean = raw.replace(/```json|```/g,'').trim();
-    const match = clean.match(/\[[\s\S]*\]/);
-    if(!match) throw new Error('Geen geldige JSON ontvangen');
-    const prices = JSON.parse(match[0]);
+    const objMatch = clean.match(/\{[\s\S]*\}/);
+    const arrMatch = clean.match(/\[[\s\S]*\]/);
+    if(!objMatch && !arrMatch) throw new Error('Geen geldige JSON ontvangen');
+    const parsed = JSON.parse(objMatch ? objMatch[0] : arrMatch[0]);
 
     // Cache it
-    try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ts:Date.now(), prices})); }catch(e){}
+    try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ts:Date.now(), prices:parsed})); }catch(e){}
 
-    const updated = applyAIPrices(prices);
+    const updated = applyAIPrices(parsed);
     const now = new Date();
     setUpdateBadge('ok', `✓ AI-update: ${now.toLocaleDateString('nl-NL')} ${now.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`);
     setOverlay(false);
@@ -739,14 +878,14 @@ Gebruik de bovenstaande waarden als fallback als je geen actuele prijs kunt vind
     setUpdateBadge('err', '⚠ AI-update mislukt — vaste prijzen actief');
     setOverlay(false);
     // Still show the hardcoded prices
-    renderTables(); populateSel(); calcUpdate();
+    renderTables(); renderFuelTable(); populateSel(); calcUpdate();
   }
 
   document.getElementById('refresh-btn').disabled = false;
 }
 
 // Init — start with defaults immediately, then fetch AI prices
-renderTables(); populateSel(); calcUpdate();
+renderTables(); renderFuelTable(); populateSel(); calcUpdate();
 fetchPrices();
 </script>
 
