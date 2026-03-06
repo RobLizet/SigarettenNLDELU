@@ -4,187 +4,635 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🚬 Sigaretten Prijsvergelijker — NL · DE · LU</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Sigaretten Prijsvergelijker — NL · DE · BE · LU</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#181c2a;--bg2:#1f2336;--bg3:#252840;--bg4:#2d3150;
-  --amber:#c4a96b;--amber-l:#ddc07a;--amber-x:#f0d898;
-  --cream:#ede8df;--cream-d:#9e9688;--cream-dd:#66605a;
-  --nl:#e07070;--nl-bg:rgba(220,100,100,.12);
-  --de:#7aacd4;--de-bg:rgba(100,160,210,.12);
-  --lu:#d4b86a;--lu-bg:rgba(210,180,90,.12);
-  --green:#6bbf8e;--green-bg:rgba(100,190,140,.1);
-  --brd:rgba(180,170,220,.12);--brd-b:rgba(180,170,220,.28);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh}
+  --white: #ffffff;
+  --off:   #f5f3ef;
+  --paper: #faf9f6;
+  --ink:   #1a1714;
+  --ink2:  #4a4540;
+  --ink3:  #9a9590;
+  --ink4:  #c8c4be;
+  --line:  #e8e4de;
 
-header{position:relative;overflow:hidden;background:linear-gradient(180deg,#111422 0%,var(–bg2) 100%);border-bottom:2px solid var(–brd-b);padding:32px 20px 26px;text-align:center}
-header::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 110%,rgba(150,130,200,.15) 0%,transparent 65%);pointer-events:none}
-.eyebrow{font-family:‘IBM Plex Mono’,monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(–amber);margin-bottom:12px}
-header h1{font-family:‘Playfair Display’,serif;font-size:clamp(24px,5.5vw,48px);font-weight:900;line-height:1.05;color:var(–cream);text-shadow:0 2px 24px rgba(150,130,200,.25)}
-header h1 em{font-style:italic;color:var(–amber-l)}
-.header-sub{margin-top:8px;font-size:13px;color:var(–cream-d);font-weight:300;letter-spacing:.4px}
-.flag-bar{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap}
-.fpill{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase}
-.fpill.nl{background:var(–nl-bg);border:1px solid rgba(217,64,48,.4);color:#e08888}
-.fpill.de{background:var(–de-bg);border:1px solid rgba(58,130,200,.4);color:#6aaae0}
-.fpill.lu{background:var(–lu-bg);border:1px solid rgba(212,168,32,.4);color:#e0c040}
-.fpill span{font-size:16px}
+–nl:    #d63a30;
+–nl-bg: #fff5f4;
+–nl-bd: #f5c0bb;
 
-.wrap{max-width:960px;margin:0 auto;padding:24px 14px 80px}
+–de:    #2e6bab;
+–de-bg: #f2f7fd;
+–de-bd: #b8d2ed;
 
-.info-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:22px}
-.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(201,125,10,.1);border:1px solid var(–brd-b);border-radius:6px;padding:7px 13px;font-family:‘IBM Plex Mono’,monospace;font-size:11px;color:var(–amber-l)}
-.dot{width:6px;height:6px;border-radius:50%;background:var(–amber-l);animation:blink 2.2s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.klink{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(–amber);text-decoration:none;border:1px solid var(–brd);border-radius:6px;padding:7px 12px;transition:all .2s;background:rgba(201,125,10,.05)}
-.klink:hover{background:rgba(201,125,10,.12);border-color:var(–brd-b)}
+–be:    #d4930a;
+–be-bg: #fdf8ee;
+–be-bd: #f0d898;
 
-/* API KEY MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(10,8,4,.92);z-index:200;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
-.modal-overlay.hidden{display:none}
-.modal-box{background:var(–bg2);border:1px solid var(–brd-b);border-radius:16px;padding:32px 28px;max-width:420px;width:90%;box-shadow:0 24px 60px rgba(0,0,0,.6)}
-.modal-title{font-family:‘Playfair Display’,serif;font-size:20px;font-weight:700;color:var(–amber-l);margin-bottom:8px}
-.modal-sub{font-size:12px;color:var(–cream-d);line-height:1.7;margin-bottom:20px}
-.modal-sub a{color:var(–amber);text-decoration:none}
-.modal-sub a:hover{text-decoration:underline}
-.modal-input{width:100%;background:var(–bg3);border:1px solid var(–brd-b);border-radius:8px;padding:11px 14px;color:var(–cream);font-family:‘IBM Plex Mono’,monospace;font-size:13px;outline:none;transition:border-color .2s;margin-bottom:6px}
-.modal-input:focus{border-color:var(–amber-l)}
-.modal-hint{font-size:11px;color:var(–cream-dd);margin-bottom:18px;font-family:‘IBM Plex Mono’,monospace}
-.modal-btns{display:flex;gap:10px}
-.mbtn-save{flex:1;background:var(–amber);color:#000;border:none;border-radius:8px;padding:11px;font-weight:700;font-size:13px;cursor:pointer;transition:opacity .2s}
-.mbtn-save:hover{opacity:.85}
-.mbtn-skip{background:var(–bg3);color:var(–cream-d);border:1px solid var(–brd);border-radius:8px;padding:11px 16px;font-size:13px;cursor:pointer}
-.mbtn-skip:hover{background:var(–bg4)}
-.key-manage{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(–amber);border:1px solid var(–brd);border-radius:6px;padding:7px 12px;background:rgba(201,125,10,.05);cursor:pointer;font-family:‘IBM Plex Sans’,sans-serif}
-.key-manage:hover{background:rgba(201,125,10,.12)}
+–lu:    #22a05a;
+–lu-bg: #f0faf5;
+–lu-bd: #9adcbd;
 
-.tabs{display:flex;gap:4px;background:rgba(0,0,0,.35);border:1px solid var(–brd);border-radius:10px;padding:4px;margin-bottom:22px}
-.tab{flex:1;padding:10px 8px;border:none;border-radius:7px;background:transparent;color:var(–cream-d);font-family:‘IBM Plex Sans’,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
-.tab.on{background:var(–bg4);color:var(–amber-l);border:1px solid var(–brd-b);box-shadow:0 2px 10px rgba(0,0,0,.4)}
-.tab:hover:not(.on){color:var(–cream)}
-.panel{display:none}
-.panel.on{display:block;animation:fadeIn .25s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+–win:   #22a05a;
+–win-bg:#e8f7f0;
 
-.s-head{margin-bottom:16px}
-.s-title{font-family:‘Playfair Display’,serif;font-size:19px;font-weight:700;color:var(–cream);margin-bottom:4px}
-.s-desc{font-size:12px;color:var(–cream-d);font-style:italic}
-
-.cat-label{font-family:‘IBM Plex Mono’,monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(–amber);margin:26px 0 10px;display:flex;align-items:center;gap:8px}
-.cat-label::after{content:’’;flex:1;height:1px;background:var(–brd)}
-
-.ptable{border:1px solid var(–brd);border-radius:12px;overflow:hidden;background:var(–bg2);margin-bottom:6px}
-.pt-head{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr 1.2fr;background:var(–bg4);border-bottom:1px solid var(–brd-b)}
-.ch{padding:11px 14px;font-family:‘IBM Plex Mono’,monospace;font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(–cream-d)}
-.ch:not(:first-child){text-align:center;border-left:1px solid var(–brd)}
-.prow{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr 1.2fr;border-bottom:1px solid rgba(201,125,10,.08);transition:background .15s;cursor:default}
-.prow:last-child{border-bottom:none}
-.prow:hover{background:rgba(201,125,10,.06)}
-.cell{padding:13px 14px;font-size:13px;display:flex;align-items:center}
-.cell:not(:first-child){justify-content:center;text-align:center;border-left:1px solid rgba(201,125,10,.08);font-family:‘IBM Plex Mono’,monospace;font-size:12.5px}
-.prod-name{font-weight:500;color:var(–cream);line-height:1.3}
-.prod-sub{font-size:11px;color:var(–cream-d);margin-top:2px}
-
-.p-nl{color:#f07060}.p-de{color:#6aaae0}.p-lu{color:#e0c040}
-.cell-winner{background:rgba(76,184,106,.13)!important;position:relative}
-.cell-winner .price-val{font-size:15px!important;font-weight:800!important;filter:brightness(1.35)}
-.winner-flag{font-size:20px;line-height:1;display:block;margin-bottom:2px}
-.winner-label{display:inline-block;font-family:‘IBM Plex Mono’,monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:700;background:var(–green);color:#071a0a;border-radius:3px;padding:2px 6px;margin-top:4px;white-space:nowrap}
-.price-val{font-size:13px;font-weight:600;font-family:‘IBM Plex Mono’,monospace;display:block;line-height:1.2}
-.saving{font-size:11.5px;font-weight:600;font-family:‘IBM Plex Mono’,monospace;line-height:1.5}
-.saving.good{color:var(–green)}.saving.ok{color:var(–amber-l)}
-
-.country-legend{display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap}
-.cl-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(–cream-d)}
-.cl-dot{width:10px;height:10px;border-radius:50%}
-
-.calc-card{background:var(–bg2);border:1px solid var(–brd-b);border-radius:14px;padding:24px}
-.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-@media(max-width:520px){.calc-grid{grid-template-columns:1fr}}
-.cf label{display:block;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(–amber);margin-bottom:6px;font-family:‘IBM Plex Mono’,monospace}
-.cf select,.cf input{width:100%;background:var(–bg3);border:1px solid var(–brd-b);border-radius:7px;padding:10px 12px;color:var(–cream);font-family:‘IBM Plex Sans’,sans-serif;font-size:14px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
-.cf select:focus,.cf input:focus{border-color:var(–amber-l)}
-.cf .hint{font-size:11px;color:var(–cream-dd);margin-top:4px}
-.calc-result{background:var(–bg3);border:1px solid var(–brd);border-radius:10px;padding:18px 20px}
-.rrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(201,125,10,.1);font-size:14px}
-.rrow:last-child{border-bottom:none;padding-top:12px;margin-top:4px}
-.rlabel{color:var(–cream-d)}.rval{font-family:‘IBM Plex Mono’,monospace;font-size:14px;font-weight:600}
-.rbig{font-family:‘Playfair Display’,serif;font-size:28px;font-weight:700;color:var(–green)}
-
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-@media(max-width:580px){.info-grid{grid-template-columns:1fr}}
-.icard{background:var(–bg2);border:1px solid var(–brd);border-radius:12px;padding:18px}
-.icard h3{font-family:‘Playfair Display’,serif;font-size:15px;font-weight:700;color:var(–amber-l);margin-bottom:10px}
-.icard p,.icard li{font-size:12.5px;color:var(–cream-d);line-height:1.7}
-.icard ul{padding-left:16px}
-.lrow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(201,125,10,.08);font-size:12px}
-.lrow:last-child{border-bottom:none}
-.lk{color:var(–cream-d)}.lv{font-family:‘IBM Plex Mono’,monospace;font-weight:600;color:var(–cream)}
-
-.edit-note{background:rgba(201,125,10,.08);border:1px solid var(–brd);border-radius:8px;padding:12px 16px;font-size:12px;color:var(–cream-d);margin-bottom:18px;line-height:1.6}
-.edit-note strong{color:var(–amber-l)}
-.ebtn{border:none;padding:11px 22px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer}
-.ebtn.save{background:var(–amber);color:#000}
-.ebtn.reset{background:var(–bg3);color:var(–cream-d);border:1px solid var(–brd)}
-
-footer{text-align:center;padding:16px;font-size:11px;color:var(–cream-dd);border-top:1px solid var(–brd)}
-
-@media(max-width:600px){
-.pt-head,.prow{grid-template-columns:1.8fr 1fr 1fr 1fr}
-.pt-head .ch:last-child,.prow .cell:last-child{display:none}
-.tabs{overflow-x:auto}
-.tab{font-size:11px;padding:9px 5px}
+–radius: 12px;
+–shadow: 0 2px 16px rgba(26,23,20,.07);
+–shadow-lg: 0 8px 40px rgba(26,23,20,.12);
 }
 
-.fuel-table{width:100%;border-collapse:collapse;margin-bottom:6px}
-.fuel-table th{background:var(–bg3);color:var(–amber-l);font-family:‘IBM Plex Mono’,monospace;font-size:11px;text-transform:uppercase;letter-spacing:.6px;padding:10px 14px;text-align:center;border-bottom:1px solid var(–brd)}
-.fuel-table th:first-child{text-align:left}
-.fuel-table td{padding:12px 14px;border-bottom:1px solid var(–brd);font-family:‘IBM Plex Mono’,monospace;font-size:13px;text-align:center;transition:background .2s}
-.fuel-table td:first-child{text-align:left;font-family:‘IBM Plex Sans’,monospace;font-weight:600;color:var(–cream)}
-.fuel-table tr:last-child td{border-bottom:none}
-.fuel-table tr:hover td{background:rgba(255,255,255,.03)}
-.fuel-winner{background:rgba(80,180,100,.12)!important;font-weight:700;color:#4cb86a}
-.fuel-winner .fw-inner{display:inline-flex;align-items:center;gap:5px}
-.fuel-flag{font-size:14px}
-.fuel-price{font-size:14px}
-.fuel-save{font-size:10px;color:#4cb86a;opacity:.85;display:block;margin-top:2px;font-family:‘IBM Plex Mono’,monospace}
-.fuel-card{background:var(–bg2);border:1px solid var(–brd);border-radius:12px;overflow:hidden;margin-bottom:16px}
-.fuel-note{font-size:11.5px;color:var(–cream-d);background:rgba(201,125,10,.06);border:1px solid var(–brd);border-radius:8px;padding:12px 14px;margin-bottom:6px;line-height:1.8}
+- { box-sizing: border-box; margin: 0; padding: 0; }
 
-.search-wrap{position:relative;margin-bottom:16px}
-.search-input{width:100%;background:var(–bg2);border:1px solid var(–brd-b);border-radius:10px;padding:12px 16px 12px 42px;color:var(–cream);font-family:‘IBM Plex Sans’,sans-serif;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}
-.search-input:focus{border-color:var(–amber-l);box-shadow:0 0 0 3px rgba(180,165,210,.15)}
-.search-input::placeholder{color:var(–cream-dd)}
-.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;opacity:.6}
-.search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(–bg4);border:1px solid var(–brd);border-radius:4px;color:var(–cream-d);font-size:11px;padding:3px 8px;cursor:pointer;display:none;font-family:‘IBM Plex Mono’,monospace;transition:all .15s}
-.search-clear:hover{background:var(–brd-b);color:var(–cream)}
-.no-results{text-align:center;padding:28px;color:var(–cream-dd);font-family:‘IBM Plex Mono’,monospace;font-size:13px;font-style:italic}
-.prow.hidden{display:none}
-.match-count{font-family:‘IBM Plex Mono’,monospace;font-size:11px;color:var(–amber);margin-left:8px;opacity:.8}
+body {
+font-family: ‘DM Sans’, sans-serif;
+background: var(–paper);
+color: var(–ink);
+min-height: 100vh;
+}
 
-.ai-overlay{position:fixed;inset:0;background:rgba(10,8,4,.88);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;backdrop-filter:blur(4px)}
-.ai-overlay.hidden{display:none}
-.ai-spinner{width:48px;height:48px;border:3px solid rgba(201,125,10,.2);border-top-color:var(–amber-l);border-radius:50%;animation:spin 0.8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.ai-msg{font-family:‘IBM Plex Mono’,monospace;font-size:13px;color:var(–amber-l);text-align:center;max-width:300px;line-height:1.6}
-.ai-sub{font-size:11px;color:var(–cream-dd);font-family:‘IBM Plex Mono’,monospace;text-align:center}
-.badge-ok{border-color:rgba(76,184,106,.5)!important;background:rgba(76,184,106,.08)!important}
-.badge-ok .dot{background:var(–green)!important}
-.badge-err{border-color:rgba(217,64,48,.4)!important;background:rgba(217,64,48,.06)!important}
+/* ── HEADER ── */
+header {
+background: var(–ink);
+color: var(–white);
+padding: 0 24px;
+position: sticky;
+top: 0;
+z-index: 50;
+border-bottom: 3px solid var(–nl);
+}
+.header-inner {
+max-width: 1000px;
+margin: 0 auto;
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 58px;
+gap: 16px;
+}
+.header-brand {
+display: flex;
+align-items: baseline;
+gap: 10px;
+flex-shrink: 0;
+}
+.brand-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 18px;
+font-weight: 800;
+letter-spacing: -0.3px;
+color: var(–white);
+}
+.brand-sub {
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+color: rgba(255,255,255,.45);
+letter-spacing: 1px;
+text-transform: uppercase;
+}
+.header-flags {
+display: flex;
+gap: 6px;
+}
+.hflag {
+display: flex;
+align-items: center;
+gap: 4px;
+font-size: 11px;
+font-weight: 600;
+letter-spacing: .5px;
+padding: 4px 10px;
+border-radius: 20px;
+text-transform: uppercase;
+}
+.hflag.nl { background: var(–nl); color: white; }
+.hflag.de { background: var(–de); color: white; }
+.hflag.be { background: var(–be); color: white; }
+.hflag.lu { background: var(–lu); color: white; }
+@media(max-width:600px) { .hflag span:last-child { display:none; } }
+
+/* ── HERO STRIP ── */
+.hero {
+background: var(–ink);
+color: var(–white);
+padding: 28px 24px 32px;
+border-bottom: 1px solid #2a2620;
+}
+.hero-inner {
+max-width: 1000px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: 1fr auto;
+gap: 20px;
+align-items: end;
+}
+.hero-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: rgba(255,255,255,.35);
+margin-bottom: 10px;
+}
+.hero-title {
+font-family: ‘Syne’, sans-serif;
+font-size: clamp(26px, 5vw, 48px);
+font-weight: 800;
+line-height: 1.0;
+letter-spacing: -1px;
+color: var(–white);
+}
+.hero-title em {
+font-style: normal;
+color: #ffd06a;
+}
+.hero-date {
+margin-top: 10px;
+font-size: 12px;
+color: rgba(255,255,255,.4);
+font-family: ‘DM Mono’, monospace;
+}
+.hero-badge {
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+gap: 8px;
+}
+
+/* ── BADGE / STATUS ── */
+.status-badge {
+display: inline-flex;
+align-items: center;
+gap: 7px;
+padding: 7px 13px;
+border-radius: 30px;
+font-family: ‘DM Mono’, monospace;
+font-size: 11px;
+font-weight: 500;
+white-space: nowrap;
+}
+.status-badge.idle   { background: rgba(255,255,255,.1); color: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.15); }
+.status-badge.ok     { background: rgba(34,160,90,.2);   color: #6de0a8; border: 1px solid rgba(34,160,90,.35); }
+.status-badge.err    { background: rgba(214,58,48,.15);  color: #f08880; border: 1px solid rgba(214,58,48,.3); }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.status-dot.pulse { animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── TOOLBAR ── */
+.toolbar {
+background: var(–white);
+border-bottom: 1px solid var(–line);
+padding: 0 24px;
+position: sticky;
+top: 61px;
+z-index: 40;
+box-shadow: 0 2px 8px rgba(26,23,20,.04);
+}
+.toolbar-inner {
+max-width: 1000px;
+margin: 0 auto;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 12px;
+}
+.nav-tabs {
+display: flex;
+gap: 0;
+overflow-x: auto;
+scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.ntab {
+display: flex;
+align-items: center;
+gap: 6px;
+padding: 0 16px;
+height: 50px;
+border: none;
+background: transparent;
+color: var(–ink3);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 13px;
+font-weight: 500;
+cursor: pointer;
+border-bottom: 2px solid transparent;
+transition: all .2s;
+white-space: nowrap;
+}
+.ntab:hover { color: var(–ink); }
+.ntab.on { color: var(–ink); border-bottom-color: var(–nl); font-weight: 600; }
+.toolbar-actions {
+display: flex;
+gap: 8px;
+align-items: center;
+flex-shrink: 0;
+}
+.tbtn {
+display: inline-flex;
+align-items: center;
+gap: 5px;
+padding: 6px 12px;
+border-radius: 8px;
+font-size: 12px;
+font-weight: 500;
+cursor: pointer;
+transition: all .2s;
+border: 1px solid var(–line);
+background: var(–white);
+color: var(–ink2);
+font-family: ‘DM Sans’, sans-serif;
+}
+.tbtn:hover { background: var(–off); border-color: var(–ink4); }
+.tbtn.primary { background: var(–ink); color: var(–white); border-color: var(–ink); }
+.tbtn.primary:hover { background: #2e2a26; }
+
+/* ── MAIN ── */
+.main { max-width: 1000px; margin: 0 auto; padding: 28px 24px 80px; }
+.panel { display: none; }
+.panel.on { display: block; animation: fadeUp .25s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+/* ── SEARCH ── */
+.search-row {
+display: flex;
+gap: 10px;
+align-items: center;
+margin-bottom: 24px;
+}
+.search-wrap {
+position: relative;
+flex: 1;
+}
+.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; opacity: .5; pointer-events: none; }
+.search-input {
+width: 100%;
+background: var(–white);
+border: 1px solid var(–line);
+border-radius: var(–radius);
+padding: 11px 16px 11px 42px;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 14px;
+color: var(–ink);
+outline: none;
+transition: border-color .2s, box-shadow .2s;
+box-shadow: var(–shadow);
+}
+.search-input:focus { border-color: var(–de); box-shadow: 0 0 0 3px rgba(46,107,171,.1); }
+.search-input::placeholder { color: var(–ink4); }
+.search-clear {
+position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+background: var(–off); border: 1px solid var(–line); border-radius: 6px;
+color: var(–ink3); font-size: 11px; padding: 3px 8px; cursor: pointer; display: none;
+font-family: ‘DM Mono’, monospace; transition: all .15s;
+}
+.search-clear:hover { background: var(–line); }
+
+/* ── SECTION LABEL ── */
+.sec-label {
+display: flex;
+align-items: center;
+gap: 10px;
+margin: 32px 0 14px;
+font-family: ‘Syne’, sans-serif;
+font-size: 13px;
+font-weight: 700;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(–ink2);
+}
+.sec-label::before { content:’’; width: 4px; height: 16px; border-radius: 2px; background: var(–nl); }
+.sec-label:first-child { margin-top: 0; }
+
+/* ── LEGEND ── */
+.legend {
+display: flex;
+gap: 16px;
+margin-bottom: 16px;
+flex-wrap: wrap;
+}
+.leg-item {
+display: flex;
+align-items: center;
+gap: 6px;
+font-size: 12px;
+color: var(–ink2);
+font-weight: 500;
+}
+.leg-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* ── PRICE TABLE ── */
+.price-block {
+background: var(–white);
+border: 1px solid var(–line);
+border-radius: var(–radius);
+overflow: hidden;
+box-shadow: var(–shadow);
+margin-bottom: 8px;
+}
+.price-head {
+display: grid;
+grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1.1fr;
+background: var(–ink);
+color: var(–white);
+}
+.ph {
+padding: 10px 14px;
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: rgba(255,255,255,.55);
+}
+.ph:not(:first-child) { text-align: center; border-left: 1px solid rgba(255,255,255,.08); }
+.ph.nl-h { color: #f99; }
+.ph.de-h { color: #8cc4f0; }
+.ph.be-h { color: #ffd06a; }
+.ph.lu-h { color: #7de0b0; }
+
+.price-row {
+display: grid;
+grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1.1fr;
+border-bottom: 1px solid var(–line);
+transition: background .12s;
+cursor: default;
+}
+.price-row:last-child { border-bottom: none; }
+.price-row:hover { background: var(–off); }
+.price-row.hidden { display: none; }
+
+.pc { padding: 14px 14px; display: flex; align-items: center; font-size: 13px; }
+.pc:not(:first-child) {
+justify-content: center;
+text-align: center;
+border-left: 1px solid var(–line);
+font-family: ‘DM Mono’, monospace;
+font-size: 12.5px;
+flex-direction: column;
+gap: 2px;
+}
+
+.prod-name { font-weight: 600; color: var(–ink); font-size: 13.5px; line-height: 1.3; }
+.prod-sub { font-size: 11px; color: var(–ink3); margin-top: 2px; }
+
+.price-num { font-family: ‘DM Mono’, monospace; font-weight: 500; }
+.price-num.nl { color: var(–nl); }
+.price-num.de { color: var(–de); }
+.price-num.be { color: var(–be); }
+.price-num.lu { color: var(–lu); }
+
+/* winner cell */
+.pc.winner {
+background: var(–win-bg);
+position: relative;
+}
+.pc.winner .price-num {
+font-size: 15px !important;
+font-weight: 700 !important;
+}
+.win-badge {
+display: inline-block;
+background: var(–win);
+color: white;
+font-family: ‘DM Mono’, monospace;
+font-size: 8.5px;
+letter-spacing: .5px;
+text-transform: uppercase;
+padding: 2px 6px;
+border-radius: 4px;
+margin-top: 3px;
+}
+
+/* saving cell */
+.save-cell { flex-direction: column !important; gap: 2px !important; }
+.save-amt { font-family: ‘DM Mono’, monospace; font-size: 13px; font-weight: 600; color: var(–win); }
+.save-pct {
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+color: var(–ink3);
+background: var(–off);
+padding: 1px 5px;
+border-radius: 4px;
+}
+.save-pct.high { color: var(–win); background: var(–win-bg); }
+
+.no-results {
+text-align: center; padding: 32px;
+color: var(–ink3); font-family: ‘DM Mono’, monospace; font-size: 13px;
+font-style: italic;
+}
+
+/* ── CALCULATOR ── */
+.calc-shell {
+background: var(–white);
+border: 1px solid var(–line);
+border-radius: var(–radius);
+overflow: hidden;
+box-shadow: var(–shadow);
+}
+.calc-top {
+background: var(–ink);
+padding: 20px 24px;
+color: white;
+}
+.calc-top h3 { font-family: ‘Syne’, sans-serif; font-size: 16px; font-weight: 700; }
+.calc-top p { font-size: 12px; color: rgba(255,255,255,.45); margin-top: 4px; }
+.calc-body { padding: 24px; }
+.calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+@media(max-width:520px){ .calc-grid { grid-template-columns: 1fr; } }
+.cf label {
+display: block; font-size: 11px; font-weight: 600; letter-spacing: 1px;
+text-transform: uppercase; color: var(–ink3); margin-bottom: 6px;
+font-family: ‘DM Mono’, monospace;
+}
+.cf select, .cf input {
+width: 100%;
+background: var(–paper);
+border: 1px solid var(–line);
+border-radius: 8px;
+padding: 10px 12px;
+color: var(–ink);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 14px;
+outline: none;
+transition: border-color .2s;
+-webkit-appearance: none; appearance: none;
+}
+.cf select:focus, .cf input:focus { border-color: var(–de); }
+.cf .hint { font-size: 11px; color: var(–ink3); margin-top: 4px; }
+.sec-divider {
+grid-column: 1/-1;
+border-top: 1px solid var(–line);
+padding-top: 16px; margin-top: 4px;
+font-family: ‘Syne’, sans-serif;
+font-size: 12px; font-weight: 700;
+letter-spacing: 1px; text-transform: uppercase;
+color: var(–ink2);
+}
+.calc-result {
+background: var(–paper);
+border: 1px solid var(–line);
+border-radius: 10px;
+padding: 20px;
+}
+.cr-section { font-family: ‘DM Mono’, monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(–ink3); margin: 14px 0 8px; }
+.cr-section:first-child { margin-top: 0; }
+.cr-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(–line); font-size: 13px; color: var(–ink2); }
+.cr-row:last-child { border-bottom: none; }
+.cr-row span:last-child { font-family: ‘DM Mono’, monospace; font-weight: 600; color: var(–ink); }
+.cr-row.win span:last-child { color: var(–win); }
+.cr-row.loss span:last-child { color: var(–nl); }
+.cr-divider { border-top: 2px solid var(–ink); margin: 12px 0; }
+.cr-verdict {
+margin-top: 14px; padding: 14px 16px;
+border-radius: 8px; font-size: 13px; font-weight: 500; line-height: 1.5;
+}
+.cr-verdict.v-ok { background: var(–win-bg); color: #166940; border: 1px solid #9adcbd; }
+.cr-verdict.v-no { background: #fff5f4; color: #8a1a12; border: 1px solid var(–nl-bd); }
+
+/* ── INFO ── */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+@media(max-width:580px){ .info-grid { grid-template-columns: 1fr; } }
+.icard {
+background: var(–white);
+border: 1px solid var(–line);
+border-radius: var(–radius);
+padding: 20px;
+box-shadow: var(–shadow);
+}
+.icard h3 {
+font-family: ‘Syne’, sans-serif;
+font-size: 14px; font-weight: 700;
+color: var(–ink); margin-bottom: 12px;
+display: flex; align-items: center; gap: 8px;
+}
+.icard p, .icard li { font-size: 12.5px; color: var(–ink2); line-height: 1.75; }
+.icard ul { padding-left: 16px; }
+.lrow { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(–line); font-size: 12px; }
+.lrow:last-child { border-bottom: none; }
+.lk { color: var(–ink2); } .lv { font-family: ‘DM Mono’, monospace; font-weight: 600; color: var(–ink); }
+
+/* ── EDIT ── */
+.edit-note {
+background: #fffbf0;
+border: 1px solid var(–be-bd);
+border-radius: 8px;
+padding: 12px 16px;
+font-size: 12.5px;
+color: var(–ink2);
+margin-bottom: 20px;
+line-height: 1.6;
+}
+.ebtn { border: none; padding: 11px 22px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all .2s; }
+.ebtn.save { background: var(–ink); color: white; }
+.ebtn.save:hover { background: #2e2a26; }
+.ebtn.reset { background: var(–white); color: var(–ink2); border: 1px solid var(–line); }
+.ebtn.reset:hover { background: var(–off); }
+
+/* ── AI OVERLAY ── */
+.ai-overlay {
+position: fixed; inset: 0;
+background: rgba(26,23,20,.80);
+z-index: 100;
+display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+backdrop-filter: blur(6px);
+}
+.ai-overlay.hidden { display: none; }
+.ai-spinner {
+width: 44px; height: 44px;
+border: 3px solid rgba(255,208,106,.2);
+border-top-color: #ffd06a;
+border-radius: 50%;
+animation: spin .75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.ai-msg { font-family: ‘Syne’, sans-serif; font-size: 16px; font-weight: 700; color: white; text-align: center; }
+.ai-sub { font-family: ‘DM Mono’, monospace; font-size: 11px; color: rgba(255,255,255,.45); text-align: center; }
+
+/* ── KEY MODAL ── */
+.modal-overlay {
+position: fixed; inset: 0;
+background: rgba(26,23,20,.75);
+z-index: 200;
+display: flex; align-items: center; justify-content: center;
+backdrop-filter: blur(8px);
+}
+.modal-overlay.hidden { display: none; }
+.modal-box {
+background: var(–white);
+border-radius: 16px;
+padding: 32px 28px;
+max-width: 420px;
+width: 90%;
+box-shadow: var(–shadow-lg);
+border: 1px solid var(–line);
+}
+.modal-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 20px; font-weight: 800;
+color: var(–ink); margin-bottom: 8px;
+}
+.modal-sub { font-size: 13px; color: var(–ink2); line-height: 1.7; margin-bottom: 20px; }
+.modal-sub a { color: var(–de); text-decoration: none; }
+.modal-sub a:hover { text-decoration: underline; }
+.modal-input {
+width: 100%;
+background: var(–paper);
+border: 1px solid var(–line);
+border-radius: 8px;
+padding: 11px 14px;
+color: var(–ink);
+font-family: ‘DM Mono’, monospace;
+font-size: 13px;
+outline: none;
+transition: border-color .2s;
+margin-bottom: 6px;
+}
+.modal-input:focus { border-color: var(–de); }
+.modal-hint { font-size: 11px; color: var(–ink3); margin-bottom: 18px; font-family: ‘DM Mono’, monospace; }
+.modal-btns { display: flex; gap: 10px; }
+.mbtn-save { flex:1; background: var(–ink); color: white; border: none; border-radius: 8px; padding: 11px; font-weight: 700; font-size: 13px; cursor: pointer; transition: opacity .2s; font-family: ‘DM Sans’, sans-serif; }
+.mbtn-save:hover { opacity: .85; }
+.mbtn-skip { background: var(–white); color: var(–ink2); border: 1px solid var(–line); border-radius: 8px; padding: 11px 16px; font-size: 13px; cursor: pointer; font-family: ‘DM Sans’, sans-serif; }
+.mbtn-skip:hover { background: var(–off); }
+
+/* ── FOOTER ── */
+footer {
+background: var(–ink);
+color: rgba(255,255,255,.35);
+text-align: center;
+padding: 20px 24px;
+font-size: 11px;
+font-family: ‘DM Mono’, monospace;
+letter-spacing: .5px;
+}
+footer strong { color: rgba(255,255,255,.6); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+.price-head, .price-row { grid-template-columns: 1.8fr 1fr 1fr 1fr 1fr; }
+.price-head .ph:last-child, .price-row .pc:last-child { display: none; }
+.hero-inner { grid-template-columns: 1fr; }
+.hero-badge { align-items: flex-start; }
+.toolbar-inner { flex-direction: column; align-items: flex-start; height: auto; padding: 6px 0; }
+.ntab { padding: 0 10px; font-size: 12px; height: 44px; }
+.main { padding: 20px 16px 80px; }
+}
+@media(max-width:480px){
+.price-head, .price-row { grid-template-columns: 1.6fr 1fr 1fr 1fr; }
+.price-head .ph.be-h, .price-row .pc.be-c { display: none; }
+.price-head .ph:last-child, .price-row .pc:last-child { display: none; }
+}
 </style>
 
 </head>
 <body>
 
-<!-- AI LOADING OVERLAY -->
+<!-- AI OVERLAY -->
 
-<div class="ai-overlay" id="ai-overlay">
+<div class="ai-overlay hidden" id="ai-overlay">
   <div class="ai-spinner"></div>
-  <div class="ai-msg" id="ai-msg">🤖 AI zoekt actuele prijzen op...</div>
-  <div class="ai-sub" id="ai-sub">Nederland · Duitsland · Luxemburg</div>
+  <div class="ai-msg" id="ai-msg">AI zoekt actuele prijzen op…</div>
+  <div class="ai-sub" id="ai-sub">NL · DE · BE · LU — even geduld</div>
 </div>
 
 <!-- API KEY MODAL -->
@@ -193,102 +641,127 @@ footer{text-align:center;padding:16px;font-size:11px;color:var(–cream-dd);bord
   <div class="modal-box">
     <div class="modal-title">🔑 Anthropic API-sleutel</div>
     <div class="modal-sub">
-      Om actuele prijzen op te halen via AI is een API-sleutel nodig.<br>
+      Om actuele prijzen via AI op te halen heb je een API-sleutel nodig.<br>
       Haal deze op via <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.<br>
-      De sleutel wordt <strong>alleen lokaal in je browser</strong> opgeslagen.
+      De sleutel wordt <strong>alleen lokaal</strong> in jouw browser bewaard.
     </div>
-    <input class="modal-input" id="key-input" type="password"
-      placeholder="sk-ant-api03-..." autocomplete="off">
+    <input class="modal-input" id="key-input" type="password" placeholder="sk-ant-api03-…" autocomplete="off">
     <div class="modal-hint" id="key-hint">Begint met sk-ant-</div>
     <div class="modal-btns">
-      <button class="mbtn-save" onclick="saveApiKey()">✅ Opslaan &amp; vernieuwen</button>
+      <button class="mbtn-save" onclick="saveApiKey()">✅ Opslaan & vernieuwen</button>
       <button class="mbtn-skip" onclick="skipApiKey()">Overslaan</button>
     </div>
   </div>
 </div>
 
+<!-- STICKY HEADER -->
+
 <header>
-  <div class="eyebrow">Grensgebied Leende · Kaldenkirchen · Venlo</div>
-  <h1>Sigaretten <em>Prijsvergelijker</em></h1>
-  <p class="header-sub">Nederland · Duitsland · Luxemburg &mdash; bijgewerkt maart 2026</p>
-  <div class="flag-bar">
-    <span class="fpill nl"><span>🇳🇱</span> Nederland</span>
-    <span class="fpill de"><span>🇩🇪</span> Duitsland</span>
-    <span class="fpill lu"><span>🇱🇺</span> Luxemburg</span>
+  <div class="header-inner">
+    <div class="header-brand">
+      <span class="brand-title">🚬 Prijsvergelijker</span>
+      <span class="brand-sub">Grensgebied · 2026</span>
+    </div>
+    <div class="header-flags">
+      <span class="hflag nl">🇳🇱 <span>NL</span></span>
+      <span class="hflag de">🇩🇪 <span>DE</span></span>
+      <span class="hflag be">🇧🇪 <span>BE</span></span>
+      <span class="hflag lu">🇱🇺 <span>LU</span></span>
+    </div>
   </div>
 </header>
 
-<div class="wrap">
+<!-- HERO -->
 
-  <div class="info-row">
-    <div class="badge" id="update-badge"><span class="dot" id="update-dot"></span><span id="update-text">Prijzen laden...</span></div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-      <button onclick="fetchPrices(true)" id="refresh-btn" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--amber);border:1px solid var(--brd);border-radius:6px;padding:7px 12px;background:rgba(201,125,10,.05);cursor:pointer;font-family:IBM Plex Sans,sans-serif">
-        🔄 Nu vernieuwen
-      </button>
-      <button class="key-manage" onclick="openKeyModal()">🔑 API-sleutel</button>
-      <a class="klink" href="https://maps.google.com/?q=Kaldenkirchen+tabak" target="_blank">📍 Kaldenkirchen</a>
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">Leende · Kaldenkirchen · Venlo</div>
+      <div class="hero-title">Sigaretten<br><em>Prijsvergelijker</em></div>
+      <div class="hero-date">Nederland · Duitsland · België · Luxemburg — bijgewerkt maart 2026</div>
+    </div>
+    <div class="hero-badge">
+      <div class="status-badge idle" id="update-badge">
+        <span class="status-dot pulse" id="update-dot"></span>
+        <span id="update-text">Prijzen laden…</span>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="tabs">
-    <button class="tab on" onclick="showPanel('vergelijk',this)">📊 Prijzen</button>
-    <button class="tab" onclick="showPanel('calc',this)">🧮 Besparing</button>
-    <button class="tab" onclick="showPanel('info',this)">ℹ️ Info &amp; Regels</button>
-    <button class="tab" onclick="showPanel('edit',this)">✏️ Aanpassen</button>
+<!-- TOOLBAR -->
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <nav class="nav-tabs">
+      <button class="ntab on" onclick="showPanel('vergelijk',this)">📊 Prijzen</button>
+      <button class="ntab" onclick="showPanel('calc',this)">🧮 Besparing</button>
+      <button class="ntab" onclick="showPanel('info',this)">ℹ️ Info & Regels</button>
+      <button class="ntab" onclick="showPanel('edit',this)">✏️ Aanpassen</button>
+    </nav>
+    <div class="toolbar-actions">
+      <button class="tbtn" onclick="openKeyModal()">🔑 API-sleutel</button>
+      <button class="tbtn primary" onclick="fetchPrices(true)" id="refresh-btn">🔄 Vernieuwen</button>
+    </div>
   </div>
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
 
   <!-- ═══ VERGELIJK ═══ -->
 
   <div id="panel-vergelijk" class="panel on">
-    <div class="s-head">
-      <div class="s-title">Actuele prijsvergelijking</div>
-      <div class="s-desc">NL = vaste winkelprijzen &nbsp;·&nbsp; DE = grenstabakswinkels Kaldenkirchen/Gronau &nbsp;·&nbsp; LU = tankstations &amp; tabakszaken</div>
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="brand-search" type="text"
+          placeholder="Zoek op merk… (Marlboro, Camel, Mark, Chesterfield)"
+          oninput="filterProducts(this.value)"
+          onkeydown="if(event.key==='Escape')clearSearch()">
+        <button class="search-clear" id="search-clear" onclick="clearSearch()">✕ wis</button>
+      </div>
+      <a class="tbtn" href="https://maps.google.com/?q=Kaldenkirchen+tabak" target="_blank" style="text-decoration:none">📍 Kaldenkirchen</a>
     </div>
 
 ```
-<div class="search-wrap">
-  <span class="search-icon">🔍</span>
-  <input class="search-input" id="brand-search" type="text"
-    placeholder="Zoek op merk... (bijv. Marlboro, Camel, Mark, Chesterfield)"
-    oninput="filterProducts(this.value)"
-    onkeydown="if(event.key==='Escape'){clearSearch()}">
-  <button class="search-clear" id="search-clear" onclick="clearSearch()">✕ wis</button>
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:var(--nl)"></div> 🇳🇱 Nederland</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--de)"></div> 🇩🇪 Duitsland</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--be)"></div> 🇧🇪 België</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--lu)"></div> 🇱🇺 Luxemburg</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--win)"></div> Goedkoopste</div>
 </div>
 
-<div class="country-legend">
-  <div class="cl-item"><div class="cl-dot" style="background:#f07060"></div>🇳🇱 Nederland</div>
-  <div class="cl-item"><div class="cl-dot" style="background:#6aaae0"></div>🇩🇪 Duitsland</div>
-  <div class="cl-item"><div class="cl-dot" style="background:#e0c040"></div>🇱🇺 Luxemburg</div>
-  <div class="cl-item"><div class="cl-dot" style="background:#4cb86a"></div>Goedkoopste</div>
-</div>
-
-<div class="cat-label">🚬 Sigaretten — pakje 20 stuks</div>
-<div class="ptable">
-  <div class="pt-head">
-    <div class="ch">Product</div>
-    <div class="ch" style="color:#f07060">🇳🇱 NL</div>
-    <div class="ch" style="color:#6aaae0">🇩🇪 DE</div>
-    <div class="ch" style="color:#e0c040">🇱🇺 LU</div>
-    <div class="ch">Besparing</div>
+<div class="sec-label">Sigaretten — pakje 20 stuks</div>
+<div class="price-block">
+  <div class="price-head">
+    <div class="ph">Product</div>
+    <div class="ph nl-h">🇳🇱 NL</div>
+    <div class="ph de-h">🇩🇪 DE</div>
+    <div class="ph be-h">🇧🇪 BE</div>
+    <div class="ph lu-h">🇱🇺 LU</div>
+    <div class="ph">Besparing</div>
   </div>
   <div id="rows-sig"></div>
 </div>
 
-<div class="cat-label">🪣 Tabak Emmers</div>
-<div class="ptable">
-  <div class="pt-head">
-    <div class="ch">Product</div>
-    <div class="ch" style="color:#f07060">🇳🇱 NL</div>
-    <div class="ch" style="color:#6aaae0">🇩🇪 DE</div>
-    <div class="ch" style="color:#e0c040">🇱🇺 LU</div>
-    <div class="ch">Besparing</div>
+<div class="sec-label">Tabak Emmers</div>
+<div class="price-block">
+  <div class="price-head">
+    <div class="ph">Product</div>
+    <div class="ph nl-h">🇳🇱 NL</div>
+    <div class="ph de-h">🇩🇪 DE</div>
+    <div class="ph be-h">🇧🇪 BE</div>
+    <div class="ph lu-h">🇱🇺 LU</div>
+    <div class="ph">Besparing</div>
   </div>
   <div id="rows-emm"></div>
 </div>
 
-<p style="font-size:11px;color:var(--cream-dd);margin-top:10px;font-style:italic">
-  * Besparing t.o.v. Nederland. Prijzen zijn indicatief. Gebruik "✏️ Aanpassen" om jouw actuele prijzen in te voeren.
+<p style="font-size:11px;color:var(--ink3);margin-top:10px;font-style:italic">
+  * Besparing t.o.v. Nederland. BE = tabakswinkels/tankstations grensgebied. Gebruik "✏️ Aanpassen" voor eigen actuele prijzen.
 </p>
 ```
 
@@ -297,69 +770,64 @@ footer{text-align:center;padding:16px;font-size:11px;color:var(–cream-dd);bord
   <!-- ═══ CALCULATOR ═══ -->
 
   <div id="panel-calc" class="panel">
-    <div class="s-head">
-      <div class="s-title">🧮 Besparingscalculator</div>
-      <div class="s-desc">Bereken je totale voordeel: sigaretten én benzine samen</div>
-    </div>
-    <div class="calc-card">
-      <div class="calc-grid">
-        <div class="cf">
-          <label>Vertrekpunt</label>
-          <select id="c-from" onchange="fromChanged()">
-            <option value="leende" data-de="8" data-lu="60">📍 Leende</option>
-            <option value="panningen" data-de="11" data-lu="68">📍 Panningen</option>
-            <option value="custom" data-de="" data-lu="">✏️ Zelf invullen</option>
-          </select>
-        </div>
-        <div class="cf">
-          <label>Bestemming</label>
-          <select id="c-dest" onchange="destChanged()">
-            <option value="de">🇩🇪 Duitsland (Kaldenkirchen)</option>
-            <option value="lu">🇱🇺 Luxemburg</option>
-          </select>
-        </div>
-        <div class="cf">
-          <label>Verbruik auto (L/100km)</label>
-          <input type="number" id="c-cons" value="10.5" min="4" max="25" step="0.5" oninput="consChanged()">
-          <div class="hint">Peugeot 406 automaat ≈ 10–11 L/100km</div>
-        </div>
-        <div class="cf">
-          <label>Rijkosten rit (€)</label>
-          <input type="number" id="c-fuel" value="8" min="0" step="0.5" oninput="calcUpdate()">
-          <div class="hint" id="fuel-hint">Wordt automatisch berekend</div>
-        </div>
-        <div class="cf" style="grid-column:1/-1;border-top:1px solid var(--brd);padding-top:14px;margin-top:4px">
-          <label style="color:var(--amber-l);font-weight:700">🚬 Sigaretten</label>
-        </div>
-        <div class="cf">
-          <label>Product</label>
-          <select id="c-prod" onchange="calcUpdate()"></select>
-        </div>
-        <div class="cf">
-          <label>Aantal pakjes/emmers</label>
-          <input type="number" id="c-qty" value="10" min="0" max="400" oninput="calcUpdate()">
-          <div class="hint">0 = geen sigaretten meenemen</div>
-        </div>
-        <div class="cf" style="grid-column:1/-1;border-top:1px solid var(--brd);padding-top:14px;margin-top:4px">
-          <label style="color:var(--amber-l);font-weight:700">⛽ Tanken onderweg</label>
-        </div>
-        <div class="cf">
-          <label>Liters tanken in bestemming</label>
-          <input type="number" id="c-liters" value="50" min="0" max="200" oninput="calcUpdate()">
-          <div class="hint">0 = niet tanken onderweg</div>
-        </div>
+    <div class="calc-shell">
+      <div class="calc-top">
+        <h3>🧮 Besparingscalculator</h3>
+        <p>Bereken je totale voordeel: sigaretten én benzine samen</p>
       </div>
-      <div class="calc-result" id="calc-result"></div>
+      <div class="calc-body">
+        <div class="calc-grid">
+          <div class="cf">
+            <label>Vertrekpunt</label>
+            <select id="c-from" onchange="fromChanged()">
+              <option value="leende">📍 Leende</option>
+              <option value="panningen">📍 Panningen</option>
+              <option value="custom">✏️ Zelf invullen</option>
+            </select>
+          </div>
+          <div class="cf">
+            <label>Bestemming</label>
+            <select id="c-dest" onchange="destChanged()">
+              <option value="de">🇩🇪 Duitsland (Kaldenkirchen)</option>
+              <option value="be">🇧🇪 België (grensgebied)</option>
+              <option value="lu">🇱🇺 Luxemburg</option>
+            </select>
+          </div>
+          <div class="cf">
+            <label>Verbruik (L/100km)</label>
+            <input type="number" id="c-cons" value="10.5" min="4" max="25" step="0.5" oninput="consChanged()">
+            <div class="hint">Peugeot 406 automaat ≈ 10–11 L/100km</div>
+          </div>
+          <div class="cf">
+            <label>Rijkosten rit (€)</label>
+            <input type="number" id="c-fuel" value="8" min="0" step="0.5" oninput="calcUpdate()">
+            <div class="hint" id="fuel-hint">Wordt automatisch berekend</div>
+          </div>
+          <div class="sec-divider">🚬 Sigaretten</div>
+          <div class="cf">
+            <label>Product</label>
+            <select id="c-prod" onchange="calcUpdate()"></select>
+          </div>
+          <div class="cf">
+            <label>Aantal pakjes/emmers</label>
+            <input type="number" id="c-qty" value="10" min="0" max="400" oninput="calcUpdate()">
+            <div class="hint">0 = geen sigaretten meenemen</div>
+          </div>
+          <div class="sec-divider">⛽ Tanken onderweg</div>
+          <div class="cf">
+            <label>Liters tanken in bestemming</label>
+            <input type="number" id="c-liters" value="50" min="0" max="200" oninput="calcUpdate()">
+            <div class="hint">0 = niet tanken onderweg</div>
+          </div>
+        </div>
+        <div class="calc-result" id="calc-result"></div>
+      </div>
     </div>
   </div>
 
   <!-- ═══ INFO ═══ -->
 
   <div id="panel-info" class="panel">
-    <div class="s-head">
-      <div class="s-title">Info &amp; Douaneregels</div>
-      <div class="s-desc">Wat mag je meenemen vanuit EU-landen naar Nederland?</div>
-    </div>
     <div class="info-grid">
       <div class="icard">
         <h3>📋 Max. hoeveelheden (EU → NL)</h3>
@@ -369,422 +837,360 @@ footer{text-align:center;padding:16px;font-size:11px;color:var(–cream-dd);bord
           <div class="lrow"><span class="lk">Sigaren</span><span class="lv">200 stuks</span></div>
           <div class="lrow"><span class="lk">Cigarillo's</span><span class="lv">400 stuks</span></div>
         </div>
-        <p style="margin-top:10px;font-size:11px">⚠️ Uitsluitend voor <strong style="color:var(--cream)">eigen gebruik</strong>. Bij twijfel kan de douane vragen stellen en accijns naheffen.</p>
+        <p style="margin-top:10px;font-size:11px;color:var(--ink3)">⚠️ Uitsluitend voor <strong style="color:var(--ink)">eigen gebruik</strong>. Bij twijfel kan de douane vragen stellen en accijns naheffen.</p>
       </div>
       <div class="icard">
         <h3>📍 Kaldenkirchen tips</h3>
         <ul>
           <li>Kaldenkirchen (NRW) ligt ~20 km van Venlo</li>
-          <li>Meerdere tabakswinkels &amp; tankstations met groot assortiment</li>
-          <li>Emmer tabak is hier véél goedkoper dan in NL</li>
-          <li>Tabak XXL Gronau (Königstr. 66) heeft enorm assortiment</li>
-          <li>Combineer met boodschappen doen voor extra besparing</li>
+          <li>Meerdere tabakswinkels &amp; tankstations</li>
+          <li>Emmer tabak véél goedkoper dan in NL</li>
+          <li>Tabak XXL Gronau (Königstr. 66) — enorm assortiment</li>
+          <li>Combineer met boodschappen voor extra besparing</li>
           <li>Geen aanmelding nodig — gewoon langsgaan</li>
         </ul>
       </div>
       <div class="icard">
-        <h3>🇩🇪 Waarom goedkoper in Duitsland?</h3>
-        <p>In Nederland bestaat ruim 80% van de sigarettenprijs uit belastingen. De overheid verhoogt jaarlijks de accijns als ontmoedigingsbeleid. Duitsland zit in de Europese middenmoot en kent lagere accijnzen. Een pakje Marlboro kost in NL ~€12,50 en in DE ~€8,70.</p>
+        <h3>🇧🇪 België — handig tussenstation</h3>
+        <p>België heeft lagere tabaksaccijnzen dan Nederland maar hogere dan Duitsland. Gunstig als je toch al die kant op gaat. Grensgebied Hamont-Achel of Lommel zijn populaire bestemmingen vanuit Leende (±20 km). Geen douaneformaliteiten binnen EU.</p>
       </div>
       <div class="icard">
         <h3>🇱🇺 Waarom goedkoopst in Luxemburg?</h3>
-        <p>Luxemburg houdt bewust lage tabaksaccijnzen — slechts 5% van de tabaksverkoop is voor eigen inwoners. Een slof sigaretten kost in LU ca. €65–70, in NL ca. €130. De rit (±3 uur) loont pas goed als je minstens 2–3 sloffen of emmers meeneemt.</p>
+        <p>Luxemburg houdt bewust lage tabaksaccijnzen — slechts 5% van de tabaksverkoop is voor eigen inwoners. Een slof kost in LU ca. €60–65, in NL ca. €130. De rit (±3 uur) loont pas goed met minstens 2–3 sloffen of emmers.</p>
       </div>
     </div>
     <div class="icard">
       <h3>📈 Prijsontwikkeling Nederland (Marlboro 20 stuks)</h3>
-      <p>2020: €7,20 &nbsp;→&nbsp; 2022: €8,90 &nbsp;→&nbsp; 2023: €9,80 &nbsp;→&nbsp; 2024: €11,10 &nbsp;→&nbsp; 2026: ~€12,50. Shag steeg van €7 (50g, 2020) naar €25 (2026). De verwachting is dat de prijzen in NL de komende jaren verder blijven stijgen door Europees tabaksbeleid.</p>
+      <p>2020: €7,20 → 2022: €8,90 → 2023: €9,80 → 2024: €11,10 → 2026: ~€12,50. Shag steeg van €7 (50g, 2020) naar €25 (2026). De verwachting is dat de prijzen in NL de komende jaren verder blijven stijgen door Europees tabaksbeleid.</p>
     </div>
   </div>
 
   <!-- ═══ EDIT ═══ -->
 
   <div id="panel-edit" class="panel">
-    <div class="s-head">
-      <div class="s-title">Prijzen aanpassen</div>
-      <div class="s-desc">Vul jouw actuele prijzen in — worden opgeslagen in je browser</div>
-    </div>
     <div class="edit-note">
       💡 Heb je ergens een andere prijs gezien? Pas hier aan en klik <strong>Opslaan</strong>. De vergelijking wordt direct bijgewerkt.
     </div>
     <div id="edit-rows"></div>
     <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
-      <button class="ebtn save" onclick="saveEdits()">✅ Opslaan &amp; bijwerken</button>
+      <button class="ebtn save" onclick="saveEdits()">✅ Opslaan & bijwerken</button>
       <button class="ebtn reset" onclick="resetEdits()">🔄 Standaardprijzen herstellen</button>
     </div>
   </div>
 
-</div>
+</div><!-- /main -->
 
 <footer>
-  🚬 Sigaretten Prijsvergelijker &nbsp;·&nbsp; Alleen voor eigen gebruik &nbsp;·&nbsp; Roken is schadelijk voor de gezondheid
-  <br><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--amber);letter-spacing:1px;margin-top:6px;display:inline-block">Made by Rob Borghouts 2026</span>
+  🚬 Sigaretten Prijsvergelijker &nbsp;·&nbsp; Alleen voor eigen gebruik &nbsp;·&nbsp; Roken is schadelijk voor de gezondheid<br>
+  <strong>Made by Rob Borghouts 2026</strong>
 </footer>
 
 <script>
+// ─── DATA ───
 const DEFAULTS = [
-  {id:'camel-y',  cat:'sig', name:'Camel Yellow',           sub:'pakje 20 stuks',        nl:11.00, de:8.00,  lu:6.00},
-  {id:'marlboro', cat:'sig', name:'Marlboro Gold / Light',   sub:'pakje 20 stuks (lang)', nl:12.50, de:8.70,  lu:6.50},
-  {id:'winston',  cat:'sig', name:'Winston Red',             sub:'pakje 20 stuks',        nl:10.50, de:7.80,  lu:6.00},
-  {id:'chester',  cat:'sig', name:'Chesterfield Rood',       sub:'pakje 20 stuks',        nl:10.50, de:7.50,  lu:5.80},
-  {id:'mark200',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 200 gram',        nl:92.00, de:38.00, lu:34.00},
-  {id:'mark230',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 230 gram',        nl:106.00,de:44.00, lu:39.00},
-  {id:'mark400',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 400 gram',        nl:184.00,de:76.00, lu:68.00},
-  {id:'mark1kg',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 1 kg',            nl:460.00,de:188.00,lu:168.00},
-  {id:'ches200',  cat:'emm', name:'Chesterfield Rood Tabak', sub:'emmer 200 gram',        nl:96.00, de:40.00, lu:36.00},
-  {id:'ches1kg',  cat:'emm', name:'Chesterfield Rood Tabak', sub:'emmer 1 kg',            nl:480.00,de:198.00,lu:175.00},
+  {id:'camel-y',  cat:'sig', name:'Camel Yellow',           sub:'pakje 20 stuks',        nl:11.00, de:8.00,  be:8.50,  lu:6.00},
+  {id:'marlboro', cat:'sig', name:'Marlboro Gold / Light',   sub:'pakje 20 stuks (lang)', nl:12.50, de:8.70,  be:9.00,  lu:6.50},
+  {id:'winston',  cat:'sig', name:'Winston Red',             sub:'pakje 20 stuks',        nl:10.50, de:7.80,  be:8.20,  lu:6.00},
+  {id:'chester',  cat:'sig', name:'Chesterfield Rood',       sub:'pakje 20 stuks',        nl:10.50, de:7.50,  be:7.90,  lu:5.80},
+  {id:'mark200',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 200 gram',        nl:92.00, de:38.00, be:44.00, lu:34.00},
+  {id:'mark230',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 230 gram',        nl:106.00,de:44.00, be:51.00, lu:39.00},
+  {id:'mark400',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 400 gram',        nl:184.00,de:76.00, be:88.00, lu:68.00},
+  {id:'mark1kg',  cat:'emm', name:'Mark Rood Tabak',         sub:'emmer 1 kg',            nl:460.00,de:188.00,be:218.00,lu:168.00},
+  {id:'ches200',  cat:'emm', name:'Chesterfield Rood Tabak', sub:'emmer 200 gram',        nl:96.00, de:40.00, be:46.00, lu:36.00},
+  {id:'ches1kg',  cat:'emm', name:'Chesterfield Rood Tabak', sub:'emmer 1 kg',            nl:480.00,de:198.00,be:228.00,lu:175.00},
 ];
 
-function load(){
+function loadP(){
   try{const s=localStorage.getItem('sp26');if(s)return JSON.parse(s);}catch(e){}
   return DEFAULTS.map(p=>({...p}));
 }
-let P=load();
+let P = loadP();
 
-function f(v){return '€\u00a0'+v.toFixed(2).replace('.',',')}
+const FUEL = {
+  euro95: { label:'Euro 95 (E10)', nl:2.11, de:1.65, be:1.78, lu:1.39 }
+};
 
-function cellHtml(price,color,flag,isBest){
-  const cls=isBest?'cell cell-winner':'cell';
-  const valCls='price-val p-'+color;
-  if(isBest){
-    return `<div class="${cls}"><div style="text-align:center;width:100%">
-      <span class="winner-flag">${flag}</span>
-      <span class="${valCls}">${f(price)}</span>
-      <span class="winner-label">✓ goedkoopst</span>
-    </div></div>`;
-  }
-  return `<div class="${cls}"><span class="${valCls}" style="opacity:.75">${f(price)}</span></div>`;
-}
+const ROUTE_INFO = {
+  leende:    { de:{km:40}, be:{km:22}, lu:{km:360} },
+  panningen: { de:{km:52}, be:{km:30}, lu:{km:380} },
+  custom:    { de:{km:0 }, be:{km:0 }, lu:{km:0  } },
+};
+
+// ─── HELPERS ───
+function fmt(v){ return '€\u00a0' + v.toFixed(2).replace('.',','); }
 
 function rowHtml(p){
-  const best=Math.min(p.nl,p.de,p.lu);
-  const dest=p.lu<=p.de?'lu':'de';
-  const save=p.nl-best;
-  const pct=Math.round(save/p.nl*100);
-  const flag=dest==='lu'?'🇱🇺':'🇩🇪';
-  const savHtml=save>0
-    ?`<span class="saving ${pct>=45?'good':'ok'}">${flag} −${f(save)}<br><small style="font-size:10px;opacity:.8">${pct}% goedkoper</small></span>`
-    :`<span style="color:var(--cream-dd)">—</span>`;
-  return `<div class="prow">
-    <div class="cell"><div><div class="prod-name">${p.name}</div><div class="prod-sub">${p.sub}</div></div></div>
-    ${cellHtml(p.nl,'nl','🇳🇱',p.nl===best)}
-    ${cellHtml(p.de,'de','🇩🇪',p.de===best)}
-    ${cellHtml(p.lu,'lu','🇱🇺',p.lu===best)}
-    <div class="cell">${savHtml}</div>
+  const vals = { nl:p.nl, de:p.de, be:p.be, lu:p.lu };
+  const best = Math.min(...Object.values(vals));
+  const bestKey = Object.keys(vals).find(k=>vals[k]===best);
+  const save = p.nl - best;
+  const pct  = Math.round(save/p.nl*100);
+  const destFlags = {nl:'🇳🇱',de:'🇩🇪',be:'🇧🇪',lu:'🇱🇺'};
+  const saveHtml = save > 0
+    ? `<div class="save-cell">
+        <span class="save-amt">${destFlags[bestKey]} −${fmt(save)}</span>
+        <span class="save-pct ${pct>=40?'high':''}">${pct}% goedkoper</span>
+       </div>`
+    : `<span style="color:var(--ink4)">—</span>`;
+
+  const cell = (key) => {
+    const isWin = key === bestKey;
+    const colorCls = `price-num ${key}`;
+    return isWin
+      ? `<div class="pc winner ${key}-c"><span class="${colorCls}">${fmt(p[key])}</span><span class="win-badge">✓ goedkoopst</span></div>`
+      : `<div class="pc ${key}-c"><span class="${colorCls}" style="opacity:.7">${fmt(p[key])}</span></div>`;
+  };
+
+  return `<div class="price-row">
+    <div class="pc"><div><div class="prod-name">${p.name}</div><div class="prod-sub">${p.sub}</div></div></div>
+    ${cell('nl')}${cell('de')}${cell('be')}${cell('lu')}
+    <div class="pc save-cell-wrap">${saveHtml}</div>
   </div>`;
 }
 
 function renderTables(){
-  document.getElementById('rows-sig').innerHTML=P.filter(p=>p.cat==='sig').map(rowHtml).join('');
-  document.getElementById('rows-emm').innerHTML=P.filter(p=>p.cat==='emm').map(rowHtml).join('');
-  const q=document.getElementById('brand-search')?.value||'';
-  if(q)filterProducts(q);
+  document.getElementById('rows-sig').innerHTML = P.filter(p=>p.cat==='sig').map(rowHtml).join('');
+  document.getElementById('rows-emm').innerHTML = P.filter(p=>p.cat==='emm').map(rowHtml).join('');
+  const q = document.getElementById('brand-search')?.value||'';
+  if(q) filterProducts(q);
 }
 
 function populateSel(){
-  document.getElementById('c-prod').innerHTML=P.map(p=>`<option value="${p.id}">${p.name} (${p.sub})</option>`).join('');
+  document.getElementById('c-prod').innerHTML = P.map(p=>`<option value="${p.id}">${p.name} (${p.sub})</option>`).join('');
 }
 
-// ═══ BENZINEDATA ═══
-const FUEL={
-  euro95:{label:'Euro 95 (E10)',nl:2.11,de:1.65,lu:1.39},
-};
-
-function renderFuelTable(){
-  const rows=Object.entries(FUEL).map(([key,fd])=>{
-    const vals={nl:fd.nl,de:fd.de,lu:fd.lu};
-    const winner=Object.keys(vals).reduce((a,b)=>vals[a]<vals[b]?a:b);
-    const flags={nl:'🇳🇱',de:'🇩🇪',lu:'🇱🇺'};
-    const savingVsNL={de:fd.nl-fd.de,lu:fd.nl-fd.lu,nl:0};
-    const cell=(country)=>{
-      const isWin=country===winner;
-      const save=savingVsNL[country];
-      const inner=isWin
-        ?`<span class="fw-inner"><span class="fuel-flag">${flags[country]}</span><span class="fuel-price">€${fd[country].toFixed(3)}</span></span>${save>0?`<span class="fuel-save">✓ €${save.toFixed(2)}/ltr goedkoopst</span>`:''}`
-        :`€${fd[country].toFixed(3)}`;
-      return `<td class="${isWin?'fuel-winner':''}">${inner}</td>`;
-    };
-    return `<tr><td><strong>${fd.label}</strong></td>${cell('nl')}${cell('de')}${cell('lu')}</tr>`;
-  }).join('');
-  const el=document.getElementById('fuel-rows');
-  if(el)el.innerHTML=rows;
-}
-
-const ROUTE_INFO={
-  leende:   {de:{km:40},lu:{km:360}},
-  panningen:{de:{km:52},lu:{km:380}},
-  custom:   {de:{km:0 },lu:{km:0  }},
-};
-
+// ─── CALCULATOR ───
 function calcTripCost(){
-  const from=document.getElementById('c-from').value;
-  const dest=document.getElementById('c-dest').value;
-  const cons=parseFloat(document.getElementById('c-cons').value)||10.5;
-  const km=(ROUTE_INFO[from]?.[dest]?.km)||0;
-  if(!km)return null;
-  const liters=(km*2)*(cons/100);
-  const price=FUEL.euro95.nl;
-  return{km,liters:Math.round(liters*10)/10,cost:Math.round(liters*price*100)/100};
+  const from = document.getElementById('c-from').value;
+  const dest = document.getElementById('c-dest').value;
+  const cons = parseFloat(document.getElementById('c-cons').value)||10.5;
+  const km   = ROUTE_INFO[from]?.[dest]?.km || 0;
+  if(!km) return null;
+  const liters = (km*2)*(cons/100);
+  return { km, liters: Math.round(liters*10)/10, cost: Math.round(liters*FUEL.euro95.nl*100)/100 };
 }
 
 function updateTripCost(){
-  const from=document.getElementById('c-from').value;
-  const dest=document.getElementById('c-dest').value;
-  const trip=calcTripCost();
-  const hint=document.getElementById('fuel-hint');
-  if(trip&&trip.km>0){
-    document.getElementById('c-fuel').value=trip.cost;
-    const destLabel=dest==='de'?'Kaldenkirchen':'Luxemburg';
-    hint.textContent=`${from==='leende'?'Leende':'Panningen'} → ${destLabel} ≈ ${trip.km*2} km heen+terug, ${trip.liters}L @ €${FUEL.euro95.nl.toFixed(3)}/L`;
-  }else{
-    hint.textContent='Voer je eigen rijkosten in';
+  const from = document.getElementById('c-from').value;
+  const dest = document.getElementById('c-dest').value;
+  const trip = calcTripCost();
+  const hint = document.getElementById('fuel-hint');
+  if(trip && trip.km>0){
+    document.getElementById('c-fuel').value = trip.cost;
+    const destLabel = {de:'Kaldenkirchen',be:'België (grens)',lu:'Luxemburg'}[dest];
+    hint.textContent = `${from==='leende'?'Leende':'Panningen'} → ${destLabel} ≈ ${trip.km*2} km, ${trip.liters}L @ €${FUEL.euro95.nl.toFixed(3)}/L`;
+  } else {
+    hint.textContent = 'Voer je eigen rijkosten in';
   }
   calcUpdate();
 }
-function fromChanged(){updateTripCost();}
-function destChanged(){updateTripCost();}
-function consChanged(){updateTripCost();}
+function fromChanged(){ updateTripCost(); }
+function destChanged(){ updateTripCost(); }
+function consChanged(){ updateTripCost(); }
 
 function calcUpdate(){
-  const pid=document.getElementById('c-prod').value;
-  const qty=parseFloat(document.getElementById('c-qty').value)||0;
-  const tripFuel=parseFloat(document.getElementById('c-fuel').value)||0;
-  const dest=document.getElementById('c-dest').value;
-  const liters=parseFloat(document.getElementById('c-liters').value)||0;
-  const p=P.find(x=>x.id===pid);
-  if(!p)return;
-  const sigNL=p.nl*qty;
-  const sigForeign=p[dest]*qty;
-  const sigSave=sigNL-sigForeign;
-  const fd=FUEL.euro95;
-  const fuelNL=fd.nl*liters;
-  const fuelForeign=fd[dest]*liters;
-  const fuelSave=fuelNL-fuelForeign;
-  const totalSave=sigSave+fuelSave-tripFuel;
-  const worthIt=totalSave>0;
-  const destName=dest==='de'?'Duitsland':'Luxemburg';
-  const sigBlock=qty>0?`
-    <div class='cr-section'>Sigaretten</div>
-    <div class='cr-row'><span>NL prijs (${qty}x)</span><span>${f(sigNL)}</span></div>
-    <div class='cr-row'><span>${destName} prijs</span><span>${f(sigForeign)}</span></div>
-    <div class='cr-row win'><span>Besparing sigaretten</span><span>+${f(sigSave)}</span></div>`:'';
-  const fuelBlock=liters>0?`
-    <div class='cr-section'>Benzine (${liters}L ${fd.label})</div>
-    <div class='cr-row'><span>NL prijs</span><span>${f(fuelNL)}</span></div>
-    <div class='cr-row'><span>${destName} prijs</span><span>${f(fuelForeign)}</span></div>
-    <div class='cr-row win'><span>Besparing benzine</span><span>+${f(fuelSave)}</span></div>`:'';
-  document.getElementById('calc-result').innerHTML=`
+  const pid    = document.getElementById('c-prod').value;
+  const qty    = parseFloat(document.getElementById('c-qty').value)||0;
+  const tripFuel = parseFloat(document.getElementById('c-fuel').value)||0;
+  const dest   = document.getElementById('c-dest').value;
+  const liters = parseFloat(document.getElementById('c-liters').value)||0;
+  const p = P.find(x=>x.id===pid);
+  if(!p) return;
+
+  const sigNL      = p.nl * qty;
+  const sigForeign = p[dest] * qty;
+  const sigSave    = sigNL - sigForeign;
+  const fd         = FUEL.euro95;
+  const fuelNL     = fd.nl * liters;
+  const fuelForeign= fd[dest] * liters;
+  const fuelSave   = fuelNL - fuelForeign;
+  const totalSave  = sigSave + fuelSave - tripFuel;
+  const worthIt    = totalSave > 0;
+  const destName   = {de:'Duitsland',be:'België',lu:'Luxemburg'}[dest];
+  const destFlag   = {de:'🇩🇪',be:'🇧🇪',lu:'🇱🇺'}[dest];
+
+  const sigBlock = qty > 0 ? `
+    <div class="cr-section">Sigaretten</div>
+    <div class="cr-row"><span>NL prijs (${qty}×)</span><span>${fmt(sigNL)}</span></div>
+    <div class="cr-row"><span>${destFlag} ${destName} prijs</span><span>${fmt(sigForeign)}</span></div>
+    <div class="cr-row win"><span>Besparing sigaretten</span><span>+${fmt(sigSave)}</span></div>` : '';
+
+  const fuelBlock = liters > 0 ? `
+    <div class="cr-section">Benzine (${liters}L)</div>
+    <div class="cr-row"><span>NL prijs</span><span>${fmt(fuelNL)}</span></div>
+    <div class="cr-row"><span>${destFlag} ${destName} prijs</span><span>${fmt(fuelForeign)}</span></div>
+    <div class="cr-row win"><span>Besparing benzine</span><span>+${fmt(fuelSave)}</span></div>` : '';
+
+  document.getElementById('calc-result').innerHTML = `
     ${sigBlock}${fuelBlock}
-    <div class='cr-row' style='margin-top:10px'><span>Rijkosten heen+terug</span><span>-${f(tripFuel)}</span></div>
-    <div class='cr-divider'></div>
-    <div class='cr-row ${worthIt?"win":"loss"}'>
+    <div class="cr-row" style="margin-top:10px"><span>Rijkosten heen+terug</span><span>−${fmt(tripFuel)}</span></div>
+    <div class="cr-divider"></div>
+    <div class="cr-row ${worthIt?'win':'loss'}">
       <span><strong>Totaal netto voordeel</strong></span>
-      <span><strong>${worthIt?'+':''}${f(totalSave)}</strong></span>
+      <span><strong>${worthIt?'+':''}${fmt(totalSave)}</strong></span>
     </div>
-    <div class='cr-verdict ${worthIt?"v-ok":"v-no"}'>
-      ${worthIt?`De rit loont! Je bespaart totaal <strong>${f(totalSave)}</strong> netto.`:`De rit loont nog niet. Neem meer mee of tank een volle tank.`}
+    <div class="cr-verdict ${worthIt?'v-ok':'v-no'}">
+      ${worthIt
+        ? `✅ De rit loont! Je bespaart totaal <strong>${fmt(totalSave)}</strong> netto.`
+        : `❌ De rit loont nog niet. Neem meer mee of tank een volle tank.`}
     </div>`;
 }
 
+// ─── EDIT ───
 function renderEdit(){
-  const cats=[{k:'sig',icon:'🚬',lbl:'Sigaretten'},{k:'emm',icon:'🪣',lbl:'Tabak Emmers'}];
-  let h='';
-  cats.forEach(c=>{
-    h+=`<div class="cat-label">${c.icon} ${c.lbl}</div>
-    <div class="ptable" style="margin-bottom:18px">
-      <div class="pt-head">
-        <div class="ch">Product</div>
-        <div class="ch" style="color:#f07060">🇳🇱 NL (€)</div>
-        <div class="ch" style="color:#6aaae0">🇩🇪 DE (€)</div>
-        <div class="ch" style="color:#e0c040">🇱🇺 LU (€)</div>
-        <div class="ch"></div>
+  const cats = [{k:'sig',icon:'🚬',lbl:'Sigaretten'},{k:'emm',icon:'🪣',lbl:'Tabak Emmers'}];
+  let h = '';
+  cats.forEach(c => {
+    h += `<div class="sec-label">${c.icon} ${c.lbl}</div>
+    <div class="price-block" style="margin-bottom:18px">
+      <div class="price-head">
+        <div class="ph">Product</div>
+        <div class="ph nl-h">🇳🇱 NL (€)</div>
+        <div class="ph de-h">🇩🇪 DE (€)</div>
+        <div class="ph be-h">🇧🇪 BE (€)</div>
+        <div class="ph lu-h">🇱🇺 LU (€)</div>
+        <div class="ph"></div>
       </div>`;
-    P.filter(p=>p.cat===c.k).forEach(p=>{
-      const iStyle='width:78px;background:var(--bg3);border:1px solid var(--brd-b);border-radius:5px;padding:6px 8px;font-family:IBM Plex Mono,monospace;font-size:13px;outline:none;color:';
-      h+=`<div class="prow" style="align-items:center">
-        <div class="cell"><div class="prod-name">${p.name}<br><span class="prod-sub">${p.sub}</span></div></div>
-        <div class="cell" style="padding:6px 14px"><input type="number" id="e-${p.id}-nl" value="${p.nl}" step="0.05" min="0" style="${iStyle}#f07060"></div>
-        <div class="cell" style="padding:6px 14px"><input type="number" id="e-${p.id}-de" value="${p.de}" step="0.05" min="0" style="${iStyle}#6aaae0"></div>
-        <div class="cell" style="padding:6px 14px"><input type="number" id="e-${p.id}-lu" value="${p.lu}" step="0.05" min="0" style="${iStyle}#e0c040"></div>
-        <div class="cell"></div>
+    P.filter(p=>p.cat===c.k).forEach(p => {
+      const iS = 'width:72px;background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-family:DM Mono,monospace;font-size:12px;outline:none;-webkit-appearance:none;color:';
+      h += `<div class="price-row" style="align-items:center">
+        <div class="pc"><div class="prod-name">${p.name}<br><span class="prod-sub">${p.sub}</span></div></div>
+        <div class="pc" style="padding:6px 10px"><input type="number" id="e-${p.id}-nl" value="${p.nl}" step="0.05" min="0" style="${iS}var(--nl)"></div>
+        <div class="pc" style="padding:6px 10px"><input type="number" id="e-${p.id}-de" value="${p.de}" step="0.05" min="0" style="${iS}var(--de)"></div>
+        <div class="pc be-c" style="padding:6px 10px"><input type="number" id="e-${p.id}-be" value="${p.be}" step="0.05" min="0" style="${iS}var(--be)"></div>
+        <div class="pc" style="padding:6px 10px"><input type="number" id="e-${p.id}-lu" value="${p.lu}" step="0.05" min="0" style="${iS}var(--lu)"></div>
+        <div class="pc"></div>
       </div>`;
     });
-    h+=`</div>`;
+    h += `</div>`;
   });
-  document.getElementById('edit-rows').innerHTML=h;
+  document.getElementById('edit-rows').innerHTML = h;
 }
 
 function saveEdits(){
-  P.forEach(p=>{
-    const nl=parseFloat(document.getElementById(`e-${p.id}-nl`)?.value);
-    const de=parseFloat(document.getElementById(`e-${p.id}-de`)?.value);
-    const lu=parseFloat(document.getElementById(`e-${p.id}-lu`)?.value);
-    if(!isNaN(nl))p.nl=nl;if(!isNaN(de))p.de=de;if(!isNaN(lu))p.lu=lu;
+  P.forEach(p => {
+    ['nl','de','be','lu'].forEach(k => {
+      const v = parseFloat(document.getElementById(`e-${p.id}-${k}`)?.value);
+      if(!isNaN(v)) p[k] = v;
+    });
   });
-  try{localStorage.setItem('sp26',JSON.stringify(P));}catch(e){}
-  renderTables();populateSel();calcUpdate();
-  alert('✅ Prijzen opgeslagen en bijgewerkt!');
+  try{ localStorage.setItem('sp26', JSON.stringify(P)); }catch(e){}
+  renderTables(); populateSel(); calcUpdate();
+  alert('✅ Prijzen opgeslagen!');
 }
 
 function resetEdits(){
-  if(!confirm('Standaardprijzen herstellen?'))return;
-  P=DEFAULTS.map(p=>({...p}));
-  try{localStorage.removeItem('sp26');}catch(e){}
-  renderEdit();renderTables();populateSel();calcUpdate();
+  if(!confirm('Standaardprijzen herstellen?')) return;
+  P = DEFAULTS.map(p=>({...p}));
+  try{ localStorage.removeItem('sp26'); }catch(e){}
+  renderEdit(); renderTables(); populateSel(); calcUpdate();
 }
 
-function showPanel(id,btn){
+// ─── PANELS ───
+function showPanel(id, btn){
   document.querySelectorAll('.panel').forEach(el=>el.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(el=>el.classList.remove('on'));
   document.getElementById('panel-'+id).classList.add('on');
   btn.classList.add('on');
-  if(id==='edit')renderEdit();
+  if(id==='edit') renderEdit();
 }
 
-// ═══ ZOEKFUNCTIE ═══
+// ─── ZOEKEN ───
 function filterProducts(q){
-  const term=q.trim().toLowerCase();
-  const clearBtn=document.getElementById('search-clear');
-  clearBtn.style.display=term?'block':'none';
-  ['rows-sig','rows-emm'].forEach(containerId=>{
-    const container=document.getElementById(containerId);
-    if(!container)return;
-    const rows=container.querySelectorAll('.prow');
-    let visibleInSection=0;
-    rows.forEach(row=>{
-      const nameEl=row.querySelector('.prod-name');
-      const subEl=row.querySelector('.prod-sub');
-      const text=((nameEl?.textContent||'')+' '+(subEl?.textContent||'')).toLowerCase();
-      const match=!term||text.includes(term);
-      row.classList.toggle('hidden',!match);
-      if(match)visibleInSection++;
+  const term = q.trim().toLowerCase();
+  document.getElementById('search-clear').style.display = term ? 'block' : 'none';
+  ['rows-sig','rows-emm'].forEach(cid => {
+    const container = document.getElementById(cid);
+    if(!container) return;
+    let vis = 0;
+    container.querySelectorAll('.price-row').forEach(row => {
+      const txt = row.textContent.toLowerCase();
+      const match = !term || txt.includes(term);
+      row.classList.toggle('hidden', !match);
+      if(match) vis++;
     });
-    let noRes=container.querySelector('.no-results');
-    if(visibleInSection===0&&term){
-      if(!noRes){noRes=document.createElement('div');noRes.className='no-results';container.appendChild(noRes);}
-      noRes.textContent=`Geen resultaten voor "${q}"`;
-    }else if(noRes){noRes.remove();}
-  });
-  updateMatchCounts(term);
-}
-
-function updateMatchCounts(term){
-  document.querySelectorAll('.match-count').forEach(el=>el.remove());
-  if(!term)return;
-  [['rows-sig'],['rows-emm']].forEach(([cid])=>{
-    const container=document.getElementById(cid);
-    if(!container)return;
-    const visible=container.querySelectorAll('.prow:not(.hidden)').length;
-    let el=container.previousElementSibling;
-    while(el&&!el.classList.contains('cat-label'))el=el.previousElementSibling;
-    if(el&&visible>0){
-      const count=document.createElement('span');
-      count.className='match-count';
-      count.textContent=`(${visible})`;
-      el.appendChild(count);
-    }
+    let noRes = container.querySelector('.no-results');
+    if(vis===0 && term){
+      if(!noRes){ noRes=document.createElement('div'); noRes.className='no-results'; container.appendChild(noRes); }
+      noRes.textContent = `Geen resultaten voor "${q}"`;
+    } else if(noRes){ noRes.remove(); }
   });
 }
 
 function clearSearch(){
-  const inp=document.getElementById('brand-search');
-  inp.value='';filterProducts('');inp.focus();
+  const inp = document.getElementById('brand-search');
+  inp.value = ''; filterProducts(''); inp.focus();
 }
 
-// ═══ API KEY BEHEER ═══
+// ─── STATUS BADGE ───
+function setUpdateBadge(state, text){
+  const badge = document.getElementById('update-badge');
+  const dot   = document.getElementById('update-dot');
+  badge.className = 'status-badge ' + (state==='ok'?'ok':state==='err'?'err':'idle');
+  dot.className = 'status-dot' + (state==='idle'?' pulse':'');
+  document.getElementById('update-text').textContent = text;
+}
+
+function setOverlay(visible, msg='', sub=''){
+  document.getElementById('ai-overlay').classList.toggle('hidden', !visible);
+  if(msg) document.getElementById('ai-msg').textContent = msg;
+  if(sub) document.getElementById('ai-sub').textContent = sub;
+}
+
+// ─── API KEY ───
 const KEY_STORAGE = 'sp26-apikey';
+function getApiKey(){ try{ return localStorage.getItem(KEY_STORAGE)||''; }catch(e){ return ''; } }
 
-function getApiKey(){
-  try{ return localStorage.getItem(KEY_STORAGE)||''; }catch(e){ return ''; }
-}
-
-function openKeyModal(prefill){
-  const modal=document.getElementById('key-modal');
-  const input=document.getElementById('key-input');
-  const hint=document.getElementById('key-hint');
-  input.value=prefill||'';
-  hint.textContent=prefill?'Huidige sleutel (verborgen) — vervang of laat leeg om te bewaren':'Begint met sk-ant-';
-  modal.classList.remove('hidden');
-  setTimeout(()=>input.focus(),100);
+function openKeyModal(){
+  document.getElementById('key-hint').textContent = 'Begint met sk-ant-';
+  document.getElementById('key-input').value = '';
+  document.getElementById('key-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('key-input').focus(), 100);
 }
 
 function saveApiKey(){
-  const val=document.getElementById('key-input').value.trim();
-  if(!val){
-    document.getElementById('key-hint').textContent='⚠ Voer een geldige sleutel in';
-    return;
-  }
-  if(!val.startsWith('sk-ant-')){
-    document.getElementById('key-hint').textContent='⚠ Sleutel moet beginnen met sk-ant-';
-    return;
-  }
-  try{ localStorage.setItem(KEY_STORAGE,val); }catch(e){}
+  const val = document.getElementById('key-input').value.trim();
+  if(!val){ document.getElementById('key-hint').textContent='⚠ Voer een geldige sleutel in'; return; }
+  if(!val.startsWith('sk-ant-')){ document.getElementById('key-hint').textContent='⚠ Sleutel moet beginnen met sk-ant-'; return; }
+  try{ localStorage.setItem(KEY_STORAGE, val); }catch(e){}
   document.getElementById('key-modal').classList.add('hidden');
   fetchPrices(true);
 }
 
 function skipApiKey(){
   document.getElementById('key-modal').classList.add('hidden');
-  // Render met standaardprijzen
-  renderTables();renderFuelTable();populateSel();updateTripCost();
+  renderTables(); populateSel(); updateTripCost();
   setUpdateBadge('err','⚠ Geen API-sleutel — vaste prijzen actief');
 }
 
-// ═══ UPDATE BADGE ═══
-function setUpdateBadge(state,text){
-  const badge=document.getElementById('update-badge');
-  const dot=document.getElementById('update-dot');
-  const span=document.getElementById('update-text');
-  badge.classList.remove('badge-ok','badge-err');
-  if(state==='ok')badge.classList.add('badge-ok');
-  if(state==='err')badge.classList.add('badge-err');
-  dot.style.background=state==='ok'?'var(--green)':state==='err'?'#f07060':'var(--amber-l)';
-  span.textContent=text;
-}
-
-function setOverlay(visible,msg='',sub=''){
-  document.getElementById('ai-overlay').classList.toggle('hidden',!visible);
-  if(msg)document.getElementById('ai-msg').textContent=msg;
-  if(sub)document.getElementById('ai-sub').textContent=sub;
-}
-
+// ─── APPLY AI PRICES ───
 function applyAIPrices(data){
-  const tobaccoArr=Array.isArray(data)?data:(data.tobacco||[]);
-  const fuelObj=(!Array.isArray(data)&&data.fuel)?data.fuel:null;
-  let updated=0;
-  tobaccoArr.forEach(u=>{
-    const p=P.find(x=>x.id===u.id);
-    if(!p)return;
-    if(u.nl&&u.nl>0){p.nl=u.nl;updated++;}
-    if(u.de&&u.de>0)p.de=u.de;
-    if(u.lu&&u.lu>0)p.lu=u.lu;
+  const tobaccoArr = Array.isArray(data) ? data : (data.tobacco||[]);
+  const fuelObj    = (!Array.isArray(data)&&data.fuel) ? data.fuel : null;
+  tobaccoArr.forEach(u => {
+    const p = P.find(x=>x.id===u.id);
+    if(!p) return;
+    ['nl','de','be','lu'].forEach(k => { if(u[k]&&u[k]>0) p[k]=u[k]; });
   });
-  try{localStorage.setItem('sp26',JSON.stringify(P));}catch(e){}
-  if(fuelObj){
-    ['euro95'].forEach(k=>{
-      if(!fuelObj[k])return;
-      const fd=fuelObj[k];
-      if(fd.nl&&fd.nl>0)FUEL[k].nl=fd.nl;
-      if(fd.de&&fd.de>0)FUEL[k].de=fd.de;
-      if(fd.lu&&fd.lu>0)FUEL[k].lu=fd.lu;
-    });
+  try{ localStorage.setItem('sp26', JSON.stringify(P)); }catch(e){}
+  if(fuelObj && fuelObj.euro95){
+    const fd = fuelObj.euro95;
+    ['nl','de','be','lu'].forEach(k => { if(fd[k]&&fd[k]>0) FUEL.euro95[k]=fd[k]; });
   }
-  renderTables();renderFuelTable();populateSel();updateTripCost();
-  return updated;
+  renderTables(); populateSel(); updateTripCost();
 }
 
-// ═══ AI PRICE FETCHER ═══
-const CACHE_KEY='sp26-ai-cache';
-const CACHE_TTL=20*60*60*1000; // 20 uur
+// ─── FETCH PRICES ───
+const CACHE_KEY = 'sp26-ai-cache';
+const CACHE_TTL = 20*60*60*1000;
 
 async function fetchPrices(force=false){
-  // Check cache eerst
   if(!force){
     try{
-      const c=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-      if(c&&(Date.now()-c.ts)<CACHE_TTL){
+      const c = JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+      if(c && (Date.now()-c.ts)<CACHE_TTL){
         applyAIPrices(c.prices);
-        const d=new Date(c.ts);
+        const d = new Date(c.ts);
         setUpdateBadge('ok',`✓ Bijgewerkt: ${d.toLocaleDateString('nl-NL')} ${d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`);
         setOverlay(false);
         return;
@@ -792,103 +1198,107 @@ async function fetchPrices(force=false){
     }catch(e){}
   }
 
-  // Controleer API-sleutel
-  const apiKey=getApiKey();
+  const apiKey = getApiKey();
   if(!apiKey){
-    // Toon eerst standaardprijzen, dan modal
-    renderTables();renderFuelTable();populateSel();updateTripCost();
+    renderTables(); populateSel(); updateTripCost();
     setUpdateBadge('err','⚠ Geen API-sleutel ingesteld');
     setOverlay(false);
     openKeyModal();
     return;
   }
 
-  setOverlay(true,'🤖 AI zoekt actuele prijzen op...','Tabak + benzine NL · DE · LU — even geduld...');
-  document.getElementById('refresh-btn').disabled=true;
+  setOverlay(true,'🤖 AI zoekt actuele prijzen op…','NL · DE · BE · LU — even geduld…');
+  document.getElementById('refresh-btn').disabled = true;
 
-  const prompt=`Je bent een prijsvergelijker voor tabak en brandstof in Nederland, Duitsland (grensgebied Kaldenkirchen/Venlo) en Luxemburg.
+  const prompt = `Je bent een prijsvergelijker voor tabak en brandstof in Nederland, Duitsland (Kaldenkirchen/Venlo), België (grensgebied) en Luxemburg.
 
-Zoek ACTUELE prijzen op via web search en geef het resultaat terug als een ENKEL JSON object (geen tekst eromheen, geen markdown).
+Geef het resultaat als EEN JSON object, geen tekst of markdown eromheen.
 
-Structuur:
 {
   "tobacco": [
-    {"id":"camel-y","nl":11.00,"de":8.00,"lu":6.00},
-    {"id":"marlboro","nl":12.50,"de":8.70,"lu":6.50},
-    {"id":"winston","nl":10.50,"de":7.80,"lu":6.00},
-    {"id":"chester","nl":10.50,"de":7.50,"lu":5.80},
-    {"id":"mark200","nl":92.00,"de":38.00,"lu":34.00},
-    {"id":"mark230","nl":106.00,"de":44.00,"lu":39.00},
-    {"id":"mark400","nl":184.00,"de":76.00,"lu":68.00},
-    {"id":"mark1kg","nl":460.00,"de":188.00,"lu":168.00},
-    {"id":"ches200","nl":96.00,"de":40.00,"lu":36.00},
-    {"id":"ches1kg","nl":480.00,"de":198.00,"lu":175.00}
+    {"id":"camel-y","nl":11.00,"de":8.00,"be":8.50,"lu":6.00},
+    {"id":"marlboro","nl":12.50,"de":8.70,"be":9.00,"lu":6.50},
+    {"id":"winston","nl":10.50,"de":7.80,"be":8.20,"lu":6.00},
+    {"id":"chester","nl":10.50,"de":7.50,"be":7.90,"lu":5.80},
+    {"id":"mark200","nl":92.00,"de":38.00,"be":44.00,"lu":34.00},
+    {"id":"mark230","nl":106.00,"de":44.00,"be":51.00,"lu":39.00},
+    {"id":"mark400","nl":184.00,"de":76.00,"be":88.00,"lu":68.00},
+    {"id":"mark1kg","nl":460.00,"de":188.00,"be":218.00,"lu":168.00},
+    {"id":"ches200","nl":96.00,"de":40.00,"be":46.00,"lu":36.00},
+    {"id":"ches1kg","nl":480.00,"de":198.00,"be":228.00,"lu":175.00}
   ],
   "fuel": {
-    "euro95": {"nl":2.11,"de":1.65,"lu":1.39}
+    "euro95": {"nl":2.11,"de":1.65,"be":1.78,"lu":1.39}
   }
 }
 
-Gebruik de fallback-waarden hierboven als je geen actuele prijs kunt vinden. Geef ALLEEN het JSON object terug, niets anders.`;
+Gebruik bovenstaande waarden als fallback. Geef ALLEEN het JSON object terug.`;
 
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+  async function doFetch(withSearch){
+    const body = { model:'claude-haiku-4-5-20251001', max_tokens:1000, messages:[{role:'user',content:prompt}] };
+    if(withSearch) body.tools = [{type:'web_search_20250305',name:'web_search'}];
+    return fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
         'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
       },
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        tools:[{type:'web_search_20250305',name:'web_search'}],
-        messages:[{role:'user',content:prompt}]
-      })
+      body: JSON.stringify(body)
     });
+  }
 
+  try{
+    let resp = await doFetch(true);
+    if(resp.status===400){
+      const eb = await resp.json().catch(()=>({}));
+      if((eb?.error?.message||'').toLowerCase().includes('tool')){
+        resp = await doFetch(false);
+      } else {
+        throw new Error(`API 400: ${JSON.stringify(eb).slice(0,120)}`);
+      }
+    }
     if(!resp.ok){
-      const errText=await resp.text();
-      // Bij ongeldige sleutel: wis hem en vraag opnieuw
+      const errText = await resp.text();
       if(resp.status===401){
-        try{localStorage.removeItem(KEY_STORAGE);}catch(e){}
+        try{ localStorage.removeItem(KEY_STORAGE); }catch(e){}
         setOverlay(false);
-        renderTables();renderFuelTable();populateSel();updateTripCost();
-        setUpdateBadge('err','⚠ API-sleutel ongeldig — opnieuw invoeren');
+        renderTables(); populateSel(); updateTripCost();
+        setUpdateBadge('err','⚠ Ongeldige API-sleutel');
         openKeyModal();
         return;
       }
-      throw new Error(`API fout ${resp.status}: ${errText.slice(0,120)}`);
+      throw new Error(`API ${resp.status}: ${errText.slice(0,100)}`);
     }
 
-    const data=await resp.json();
-    const textBlocks=(data.content||[]).filter(b=>b.type==='text');
-    const raw=textBlocks.map(b=>b.text).join('');
-    const clean=raw.replace(/```json|```/g,'').trim();
-    const objMatch=clean.match(/\{[\s\S]*\}/);
-    const arrMatch=clean.match(/\[[\s\S]*\]/);
-    if(!objMatch&&!arrMatch)throw new Error('Geen geldige JSON ontvangen');
-    const parsed=JSON.parse(objMatch?objMatch[0]:arrMatch[0]);
+    const data  = await resp.json();
+    const raw   = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const m     = clean.match(/\{[\s\S]*\}/) || clean.match(/\[[\s\S]*\]/);
+    if(!m) throw new Error('Geen geldige JSON in antwoord');
+    const parsed = JSON.parse(m[0]);
 
-    try{localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),prices:parsed}));}catch(e){}
-    const updated=applyAIPrices(parsed);
-    const now=new Date();
+    try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ts:Date.now(),prices:parsed})); }catch(e){}
+    applyAIPrices(parsed);
+    const now = new Date();
     setUpdateBadge('ok',`✓ AI-update: ${now.toLocaleDateString('nl-NL')} ${now.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}`);
     setOverlay(false);
 
   }catch(err){
     console.error('AI fetch error:',err);
-    setUpdateBadge('err','⚠ AI-update mislukt — vaste prijzen actief');
+    setUpdateBadge('err',`⚠ Mislukt: ${err.message.slice(0,55)}`);
     setOverlay(false);
-    renderTables();renderFuelTable();populateSel();updateTripCost();
+    renderTables(); populateSel(); updateTripCost();
   }
 
-  document.getElementById('refresh-btn').disabled=false;
+  document.getElementById('refresh-btn').disabled = false;
 }
 
-// Init
-renderTables();renderFuelTable();populateSel();updateTripCost();
+// ─── INIT ───
+renderTables();
+populateSel();
+updateTripCost();
 fetchPrices();
 </script>
 
